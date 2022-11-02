@@ -4,7 +4,7 @@ include "config/date.php";
 $img_uri = "";
 if (session_status() != 2) : session_start();
 endif;
-$v = "1.1"
+$v = "1.4"
 ?>
 
 <!DOCTYPE html>

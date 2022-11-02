@@ -25,9 +25,10 @@ let init_table = () => {
 }
 
 let init_date_picker = () => {
-    $("#date_from,#date_until").datepicker({
+    $("#date_from,#date_until,#date_unt").datepicker({
         dateFormat: "dd-mm-yy",
         changeYear: true,
+        changeMonth: true,
         dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
     });
 }
