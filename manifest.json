@@ -1,0 +1,42 @@
+{
+    "id": "dashboard",
+    "short_name": "EnsuranceManager",
+    "name": "Administra los seguros de sus clientes",
+    "icons": [{
+            "src": "/src/img/icons/maskable_icon_x48.png",
+            "type": "image/png",
+            "sizes": "48x48"
+        },
+        {
+            "src": "/src/img/icons/maskable_icon_x96.png",
+            "type": "image/png",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/src/img/icons/maskable_icon_x128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "/src/img/icons/maskable_icon_x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/src/img/icons/maskable_icon_x384.png",
+            "type": "image/png",
+            "sizes": "384x384"
+        },
+        {
+            "src": "/src/img/icons/maskable_icon_x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "dashboard",
+    "background_color": "#5f89fb",
+    "display": "fullscreen",
+    "theme_color": "#5f89fb"
+
+
+}
