@@ -9,6 +9,7 @@
 <script src="src/js/script.js?version=<?php echo $v?>"></script>
 <!-- <script src="src/js/app.js"></script> -->
 <script src="src/libs/js/sweetalert.js"></script>
+<script src="src/libs/js/jquery-ui.js"></script>
 </body>
 
 </html>

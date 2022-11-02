@@ -124,6 +124,7 @@ $(document).on("change", "#select-client-vehicle", function(e) { //select placas
 
 
 $("body").on("click", function(e) {
+
     let cid = e.target.dataset.cid;
     let actionId = e.target.id ? e.target.id : e.target.parentElement.id
     switch (actionId) {
@@ -279,6 +280,12 @@ $("body").on("click", function(e) {
                     let car_id = e.target.dataset.car_id
                     $("#createPolicy").attr("data-cid_plate", cid);
                     $("#createPolicy").attr("data-car_id", car_id);
+                    init_date_picker()
+
+
+
+
+
                 }
             })
             break;
@@ -338,7 +345,7 @@ $("body").on("click", function(e) {
                     cal_amount(valueInInput);
                     $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
                     get_additional_service(car_plate, cid)
-
+                    init_date_picker()
                 }
 
             })
@@ -376,7 +383,7 @@ $("body").on("click", function(e) {
                     $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", true);
                     $("#renewPolicy").attr("data-policynumber", policynumber);
                     $("#renewPolicy").attr("data-cid", cid.trim());
-
+                    init_date_picker();
                 }
             })
 
@@ -439,7 +446,11 @@ $("body").on("click", function(e) {
             $("#sidebar").toggleClass("show_sidebar");
             $(".overlay").css("display", "block");
             break;
+
     }
+
+
+
 
 
 });

@@ -19,6 +19,7 @@ $v = "1.1"
     <link rel="stylesheet" href="src/libs/css/dt.css">
     <link rel="shortcut icon" href="src/img/icons/pwa_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="src/libs/css/icons.css">
+    <link rel="stylesheet" href="src/libs/css/jquery-ui.css">
     <link rel="manifest" href="manifest.json">
 
     <title>EnsuranManage</title>

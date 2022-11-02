@@ -24,7 +24,13 @@ let init_table = () => {
     });
 }
 
-
+let init_date_picker = () => {
+    $("#date_from,#date_until").datepicker({
+        dateFormat: "dd-mm-yy",
+        changeYear: true,
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"]
+    });
+}
 
 init_table();
 
