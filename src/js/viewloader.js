@@ -20,11 +20,14 @@ function viewLoader(viewData) {
     var callback = v.callback; //funcion opcional 
     var modal = v.modal ? v.modal : false; //decidir si la vista es modal o no
     var modalTitle = v.modalTitle ? v.modalTitle : ""; //titulo de la vista modal
+    var modalSize = v.modalSize ? v.modalSize : "75%"
 
     if (modal) { //mostrar las modales si es necesario
+        $("#modal_loader").css("width", modalSize);
         $("#modal__header__title").text(modalTitle);
         $("#modal_loader").css("display", "block");
         $(".overlay").css("display", "block");
+
     } else {
         $(".spinner").addClass("spinner-show");
 
@@ -203,15 +206,29 @@ $("body").on("click", function(e) {
                 }
             })
             break;
+        case "getMantenaince":
+            viewLoader({
+                title: "dashboard",
+                path: "dashboard/tb_mantenaince.php",
+                viewContainer: ".table_container",
+                callback: () => {
+                    init_table();
+
+                }
+            })
+            break;
         case "modal__header__close": //cerrar las modales
             $("#modal__header__title").text("");
             $("#modal_loader,.overlay").css("display", "none");
+            $("#modal__loader__body").html("");
 
             break;
         case "overlay": //cerrar las modales y overlay
             $("#modal__header__title").text("");
+            $("#modal__loader__body").html("");
             $("#modal_loader,.overlay").css("display", "none");
             $("#sidebar").removeClass("show_sidebar");
+
             break;
         case "newClient": //agregar nuevo cliente
             viewLoader({
@@ -388,6 +405,36 @@ $("body").on("click", function(e) {
             })
 
             break;
+        case "add_mantenaince":
+            var car_id = e.target.dataset.car_id;
+            viewLoader({
+                modal: true,
+                modalTitle: "Agregar fecha de mantenimiento",
+                path: "clients/mantenaince.modal.php",
+                viewContainer: "#modal__loader__body",
+                modalSize: "35%",
+                callback: () => {
+                    $("#save_mantenaince").attr("data-cid", cid);
+                    $("#save_mantenaince").attr("data-car_id", car_id);
+                    init_date_picker();
+                }
+            })
+            break;
+        case "edit_mantenaince":
+            var car_id = e.target.dataset.car_id;
+            viewLoader({
+                modal: true,
+                modalTitle: "Editar fecha de mantenimiento",
+                path: "clients/mantenaince.modal.php",
+                viewContainer: "#modal__loader__body",
+                modalSize: "35%",
+                params: `edit&car_id=${car_id}&cid=${cid}`,
+                callback: () => {
+
+                    init_date_picker();
+                }
+            })
+            break;
         case "printPolicy":
             var car_id = e.target.dataset.car_id
             var policynumber = e.target.dataset.policynumber
@@ -440,13 +487,43 @@ $("body").on("click", function(e) {
 
 
             break;
-            /* MOSTRAR LA BARRA LATERAL */
+            /* CARGAR CONFIGURACION */
         case "toggle":
 
-            $("#sidebar").toggleClass("show_sidebar");
-            $(".overlay").css("display", "block");
-            break;
+            /*  $("#sidebar").toggleClass("show_sidebar");
+             $(".overlay").css("display", "block"); */
 
+            viewLoader({
+                title: "configuration",
+                path: "configuration/configuration.php",
+
+                callback: () => {
+                    verify_dark()
+                    viewLoader({
+
+                        path: "configuration/paypal.php",
+                        viewContainer: ".payment",
+
+                        callback: () => {
+
+
+                        }
+                    })
+
+                }
+            })
+            break;
+        case "payPal": //Load payPal
+            viewLoader({
+                modal: true,
+                modalTitle: "Pagar con PayPal",
+                viewContainer: "#modal__loader__body",
+                path: "configuration/paypal.php",
+                callback: () => {
+
+                }
+            })
+            break;
     }
 
 

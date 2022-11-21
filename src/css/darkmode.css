@@ -1,0 +1,28 @@
+ .darked {
+     background-color: rgba(255, 255, 255, 0.014);
+     color: rgba(255, 255, 255, 0.747);
+ }
+ 
+ .globalContainer {
+     background-color: #121212;
+     color: rgba(255, 255, 255, 0.747);
+ }
+ 
+ .darked .paginate_button,
+ .dataTables_info {
+     color: rgba(255, 255, 255, 0.747);
+ }
+ 
+ .modal_loader.darked {
+     background-color: #121212;
+ }
+ 
+ .darked {
+     background-color: #121212;
+     box-shadow: 1px 1px 3px #5f88fbc0;
+ }
+ 
+ .darked input {
+     background-color: rgba(255, 255, 255, 0.014);
+     border-radius: 25px;
+ }

@@ -6,7 +6,11 @@
 <script src="src/libs/js/icons.js"></script>
 <script src="src/js/viewloader.js?version=<?php echo $v?>"></script>
 <script src="src/js/select_company.js"></script>
+<script src="src/js/pmt.js?version=<?php echo $v?>"></script>
 <script src="src/js/script.js?version=<?php echo $v?>"></script>
+<script src="src/js/configs.js?version=<?php echo $v?>"></script>
+
+
 <!-- <script src="src/js/app.js"></script> -->
 <script src="src/libs/js/sweetalert.js"></script>
 <script src="src/libs/js/jquery-ui.js"></script>

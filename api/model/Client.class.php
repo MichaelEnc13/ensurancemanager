@@ -53,6 +53,7 @@ class Client
         Db::queries("UPDATE policy SET cid = ? WHERE cid = ? AND uid = ?", $values);
         Db::queries("UPDATE vehicles SET cid = ? WHERE cid = ? AND uid = ?", $values);
         Db::queries("UPDATE policy_dues SET cid = ? WHERE cid = ? AND uid = ?", $values);
+        Db::queries("UPDATE mantenaince SET cid = ? WHERE cid = ? AND uid = ?", $values);
     }
     /* DATOS DEL VEHICULO */
     public static function add_car(
@@ -243,5 +244,38 @@ class Client
             $cid, $car_id, $_SESSION['user']['id']
         );
         return Db::queries("SELECT * FROM policy WHERE cid = ? AND car_plate = ? AND uid = ?", $values);
+    }
+
+    public static function add_mantenaince_date($car_id,$cid,$date_from,$date_until){
+        $values = array(
+            $date_from,$date_until, $car_id,$cid,$_SESSION['user']['id']
+        );
+        return Db::queries("INSERT INTO mantenaince (date_from,date_until,car_id,cid,uid	
+        ) VALUES(?,?,?,?,? )", $values);
+
+    }
+
+    public static function see_car_mantenaince($car_id, $cid)
+    {
+        $values = array(
+            $cid, $car_id, $_SESSION['user']['id']
+        );
+        return Db::queries("SELECT * FROM mantenaince WHERE cid = ? AND car_id = ? AND uid = ?", $values);
+    }
+
+    public static function edit_mantenaince_date($car_id, $cid,$date_from,$date_until)
+    {
+        $values = array(
+            $date_from,$date_until, $cid, $car_id, $_SESSION['user']['id']
+        );
+        return Db::queries("UPDATE mantenaince SET date_from = ?, date_until = ? WHERE cid = ? AND car_id = ? AND uid = ?", $values);
+    }
+
+    public static function remove_mantenaince($car_id, $cid)
+    { //pagar una cuota
+        $values = array($car_id, $cid, $_SESSION['user']['id']);
+        //el ID usado es el ID de la cuota.
+        $query =  "DELETE FROM mantenaince WHERE car_id = ?  AND cid = ? AND uid = ?";
+        return Db::queries($query, $values);
     }
 }

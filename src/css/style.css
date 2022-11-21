@@ -35,20 +35,86 @@ img {
 }
 
 .signup__container {
-    background: rgb(244, 239, 246);
+    /*  background: rgb(244, 239, 246);
     background: linear-gradient( 90deg, rgba(244, 239, 246, 1) 0%, rgba(152, 176, 213, 1) 35%, rgba(183, 66, 66, 1) 100%);
+     */
     width: 100%;
     height: 100vh;
-    overflow-y: scroll;
     padding: 30px;
+    position: relative;
+}
+
+.signup {
+    width: 85%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    border: 1px solid white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.signin {
+    width: 60%;
+}
+
+.signup__container {
+    background-image: url(../img/ilust/trafic.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.left_img {
+    backdrop-filter: blur(15px);
+    color: rgb(255, 255, 255);
+    padding: 15px;
+    position: relative;
+}
+
+.text {
+    width: 85%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+}
+
+.text h3 {
+    font-size: 40px;
+    text-decoration: underline white 3px;
+}
+
+#loadLogin,
+#loadRegister {
+    background-color: unset;
+    text-align: center;
+    display: block;
+    margin: auto;
+    font-weight: normal;
+}
+
+.branding {
+    position: absolute;
+    bottom: 20px;
+    left: 15px;
+    color: white;
+}
+
+.branding a {
+    color: var(--main-color);
+    font-weight: bold;
 }
 
 .form__container {
-    width: 40%;
-    margin: auto;
     background-color: white;
     padding: 30px;
-    border-radius: 15px;
+    border-radius: 0px 15px 15px 0px;
 }
 
 .form {
@@ -57,12 +123,17 @@ img {
     justify-content: center;
 }
 
+.form__info {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
 .form__header {
     color: var(--color);
 }
 
 .form__header__brand {
-    width: 60%;
+    width: 30%;
     margin: auto;
     padding: 20px;
     display: none;
@@ -91,14 +162,13 @@ img {
 input:not(input[type="checkbox"]),
 select {
     width: 100%;
-    height: 30px;
+    height: 35px;
     font-size: 14px;
     outline: none;
     padding-left: 15px;
     color: var(--color);
     border: 1px solid #83879157;
     border-radius: 5px;
-    box-shadow: 1px 1px 1px #8387911f;
 }
 
 input:not(input[type="checkbox"]):focus {
@@ -144,19 +214,29 @@ input:not(input[type="checkbox"]) {
     border-radius: 5px;
 }
 
+.btn--green-no-border {
+    color: rgb(255, 255, 255);
+    background-color: rgb(75, 181, 67);
+    border-radius: 5px;
+}
+
+.btn--orange-no-border {
+    color: rgb(255, 255, 255);
+    background-color: rgb(181, 99, 67);
+    border-radius: 5px;
+}
+
 .btn--red {
     color: rgb(235, 79, 79);
     border: 1px solid rgb(235, 79, 79);
 }
 
 .form__btn {
-    border: 1px solid var(--color);
-    border-radius: 10px;
+    border-radius: 5px;
     margin: 10px;
-}
-
-.form__btn:hover {
-    background-color: #92939746;
+    background-color: var(--main-color);
+    border: unset;
+    color: white;
 }
 
 
@@ -183,7 +263,7 @@ input:not(input[type="checkbox"]) {
 .nav {
     width: 100%;
     display: grid;
-    grid-template-columns: 5% 10% 20% 45% 20%;
+    grid-template-columns: 5% 10% 20% 35% 30%;
     text-align: center;
     align-items: center;
 }
@@ -236,7 +316,7 @@ input:not(input[type="checkbox"]) {
     position: absolute;
     width: 100%;
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.233);
+    /*  background-color: rgba(255, 255, 255, 0.233); */
     backdrop-filter: blur(5px);
     z-index: 1;
     display: none;
@@ -262,7 +342,7 @@ input:not(input[type="checkbox"]) {
     align-items: center;
 }
 
-#modal_loader {
+.modal_loader {
     width: 75%;
     position: absolute;
     top: 35%;
@@ -276,6 +356,18 @@ input:not(input[type="checkbox"]) {
     box-shadow: var(--shadow);
     display: none;
     transition: .5s;
+}
+
+.modal_loader_s {
+    width: 40%;
+}
+
+.modal_loader_m {
+    width: 60%;
+}
+
+.modal_loader_xl {
+    width: 75%;
 }
 
 .modal__header {
@@ -324,7 +416,7 @@ input:not(input[type="checkbox"]) {
     width: 100%;
     padding: 15px;
     display: grid;
-    grid-template-columns: 13% 13% 13% 13% 13% 13% auto;
+    grid-template-columns: 11% 11% 11% 11% 11% 11% 11% auto;
     column-gap: 15px;
     text-align: center;
     align-items: center;
@@ -424,7 +516,7 @@ tbody td {
 }
 
 table tbody tr:hover {
-    background-color: #42474bde;
+    background-color: #30415011;
     cursor: pointer;
 }
 
@@ -453,7 +545,7 @@ table tbody tr:hover {
 
 .client__header {
     display: grid;
-    grid-template-columns: 50% auto auto auto auto;
+    grid-template-columns: 20% auto auto auto auto auto auto;
     align-items: center;
     column-gap: 20px;
     padding-bottom: 5px;
@@ -494,7 +586,20 @@ table tbody tr:hover {
     display: none;
 }
 
-.client__info__widget:hover .editinfo {
+.client__info__group__data--mantenaince {
+    position: relative;
+}
+
+.client__info__group__data--mantenaince .editinfo--mantenaince {
+    position: absolute;
+    right: 25%;
+    top: 5%;
+    width: 10%;
+    display: none;
+}
+
+.client__info__widget:hover .editinfo,
+.client__info__group__data--mantenaince .editinfo--mantenaince {
     display: block;
 }
 
@@ -644,7 +749,7 @@ input[type=checkbox] {
 
 .policy_container {
     padding-top: 3.5cm;
-    padding-left: 2.5cm;
+    padding-left: 2.2cm;
 }
 
 .policy__print {
@@ -687,6 +792,143 @@ input[type=checkbox] {
     grid-template-columns: 60% 40%;
 }
 
+#logout {
+    color: var(--main-color);
+}
+
+.mantenaince form .form_grid {
+    display: grid;
+    grid-template-columns: 45% 45%;
+    column-gap: 30px;
+    justify-content: center;
+    padding: 30px;
+}
+
+.mantenaince {
+    text-align: center;
+}
+
+
+/* Configuracion */
+
+.config_container {
+    height: 95vh;
+    color: var(--main-color);
+}
+
+.saving {
+    display: none;
+    float: right;
+}
+
+.config_header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 75% 15% 10%;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.configs {
+    display: grid;
+    grid-template-columns: 70% 25%;
+    width: 100%;
+    margin: auto;
+    height: 90%;
+    column-gap: 20px;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+.main_config {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: center;
+    column-gap: 20px;
+}
+
+.user_config,
+.system_config {
+    background-color: white;
+    border-radius: 7px;
+    padding: 5px;
+}
+
+.widget {
+    box-shadow: var(--shadow);
+}
+
+.user_config .input {
+    border: none;
+    box-shadow: unset;
+    padding-left: 0;
+}
+
+.second_config {
+    height: 90%;
+    border-radius: 15px;
+    padding: 15px;
+    background-color: white;
+}
+
+.second_config span {
+    color: var(--color);
+}
+
+.billing_info {
+    margin: 15px;
+}
+
+.main_config .widget span {
+    display: block;
+    color: var(--color);
+    font-weight: 500;
+}
+
+.main_config .widget {
+    padding-left: 20px;
+    border-radius: 15px;
+}
+
+.toggle {
+    color: var(--main-color);
+}
+
+.system_config_darkmode {
+    width: 30%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+    align-items: center;
+    column-gap: 15px;
+    padding: 15px 0px;
+}
+
+.dark_toggle {
+    width: 50px;
+    height: 20px;
+    background-color: rgba(105, 105, 105, 0.363);
+    border-radius: 15px;
+    position: relative;
+}
+
+.dark_toggle_switch {
+    width: 25px;
+    height: 25px;
+    background-color: var(--main-color);
+    border-radius: 100%;
+    border: 2px solid white;
+    position: absolute;
+    top: -10%;
+    left: 0%;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.dark_toggle_switch_on {
+    left: 50%;
+}
+
 @media only screen and (max-width:1367px) {
     .widgets {
         width: 90%;
@@ -705,7 +947,7 @@ input[type=checkbox] {
         font-size: 13px;
     }
     .client__header {
-        grid-template-columns: 50% auto auto auto auto
+        grid-template-columns: 20% auto auto auto auto auto auto
     }
     .client__header h1 {
         font-size: 20px;
@@ -747,7 +989,7 @@ input[type=checkbox] {
 
 @media only screen and (max-width:1115px) {
     .client__header {
-        grid-template-columns: 50% auto auto auto
+        grid-template-columns: 20% auto auto auto auto auto auto
     }
     .btn {
         padding: 7px;

@@ -15,7 +15,7 @@ class Signin
     public static function login($user, $pass)
     {
 
-        $uInfo =  Signup::checkIfExist("", $user);
+        $uInfo =  Signup::checkIfExist($user, $user);
         if ($uInfo) :
 
             if (password_verify($pass, $uInfo['password'])) :

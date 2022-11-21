@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Contracts\Filesystem\Cloud;
+
 include "../model/autoload.php";
 
 if (isset($_POST['newClient'])) : //agrega un cliente y su vehiculo
@@ -342,4 +345,48 @@ if (isset($_POST['deletePolicy'])) : //elimina la poliza
     Client::update_car_policy_status($_POST['car_id'], $cid);
     echo $done['status'] ? $done['status'] : "DP" . $done['error'][1];
 
+endif;
+
+if(isset($_POST['save_mantenaince'])):
+    $done = Client::add_mantenaince_date(
+        $_POST['car_id'],
+        $_POST['cid'],
+        $_POST['date_from'],
+        $_POST['date_until']
+    );
+
+    if($done['status']):
+        echo $done['status'];
+    else:
+        echo $done['error'][1];
+    endif;
+endif;
+
+if(isset($_POST['edit_mantenaince'])):
+    $done = Client::edit_mantenaince_date(
+        $_POST['car_id'],
+        $_POST['cid'],
+        $_POST['date_from'],
+        $_POST['date_until']
+    );
+
+    if($done['status']):
+        echo $done['status'];
+    else:
+        echo $done['error'][1];
+    endif;
+endif;
+
+if(isset($_POST['remove_mantenaince'])):
+    $done = Client::remove_mantenaince(
+        $_POST['car_id'],
+        $_POST['cid'],
+    
+    );
+
+    if($done['status']):
+        echo $done['status'];
+    else:
+        echo $done['error'][1];
+    endif;
 endif;

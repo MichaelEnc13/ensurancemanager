@@ -4,7 +4,8 @@ include "config/date.php";
 $img_uri = "";
 if (session_status() != 2) : session_start();
 endif;
-$v = "1.4"
+$v = "1.4";
+$_SESSION['version'] = $v;
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +16,14 @@ $v = "1.4"
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/libs/css/spinner.css">
-    <link rel="stylesheet" href="src/css/style.css?version=<?php echo $v?>">
     <link rel="stylesheet" href="src/libs/css/dt.css">
+    <link rel="stylesheet" href="src/css/style.css?version=<?php echo $v?>">
     <link rel="shortcut icon" href="src/img/icons/pwa_icon.png" type="image/x-icon">
     <link rel="stylesheet" href="src/libs/css/icons.css">
     <link rel="stylesheet" href="src/libs/css/jquery-ui.css">
     <link rel="manifest" href="manifest.json">
+
+
 
     <title>EnsuranManage</title>
 </head>
@@ -38,6 +41,10 @@ $v = "1.4"
         
      
     endif; ?>
+
+    <div class="darkmodeLoader">
+        
+    </div>
 
     
 

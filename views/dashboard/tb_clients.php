@@ -11,7 +11,7 @@ $clients = Client::see_all_client()['data'];
 </style>
 <h2 class="blue">Todos los clientes</h2>
 
-<table id="table">
+<table id="table" class="table-hover display  dataTable dtr-inline collapsed">
     <thead>
         <tr>
             <td>id</td>

@@ -26,7 +26,9 @@ $car_id_policy = isset($_SESSION['car_id']) == true && $_SESSION['car_id'] != "f
 $see_car_policy = Client::see_car_policy($car_id_policy, $cid)['data']->fetch();
 $dueInfo = Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->fetch();
 $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->rowCount(); //cantidad de cuotas;
-
+//Ver mantenimiento del vehiculo
+$mantenaince = Client::see_car_mantenaince( $clients_car_info['id'] , $cid)['data']->fetch();
+ 
 ?>
 
 
@@ -36,7 +38,9 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
 
 
         <div class="client__header">
+            <!-- Nombre del cliente -->
             <h1 class="blue"><?php echo $clients['fname'] . " " . $clients['lname'] ?></h1>
+            <!-- Elegir matricula de cliente -->
             <span>Elige una matricula:</span>
             <select data-cid="<?php echo $clients['cid'] ?>" id="select-client-vehicle" data-car_plate="<?php echo $clients_car_info['plate'] ?>">
                 <option style="color: var(--main-color)"><?php echo  $clients_car_info['plate'] ?>(mostrado)</option>
@@ -44,14 +48,17 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
                     <option value="<?php echo $client_car['id'] ?>"><?php echo $client_car['plate'] ?></option>
                 <?php endforeach; ?>
             </select>
-            <button class="btn btn--blue" id="newCar" data-cid="<?php echo $cid ?>">Agregar vehículo</button>
-            <button class="btn btn--red-no-border" id="deletecar" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $car_id ?>" data-cid="<?php echo $cid ?>">Eliminar vehiculo</button>
+            <!-- Controles de acciones -->
+            <button class="btn btn--blue" id="newCar" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-car"></i> Agregar vehículo</button>
+            <button class="btn btn--red-no-border" id="deletecar" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $car_id ?>" data-cid="<?php echo $cid ?>"><i class="fa-solid fa-car-burst"></i> Eliminar vehiculo</button>
+            <button class="btn btn--green-no-border" id="add_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Mantenimiento</button>
+            <button class="btn btn--orange-no-border" id="remove_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Quitar fecha</button>
         </div>
 
         <div class="client__info__container">
             <div class="client__info">
                 <!-- Informacion del cliente -->
-                <div class="client__info__widget client__info__personal">
+                <div class="client__info__widget client__info__personal darked">
                     <h3 class="blue">Información personal</h3>
                     <span class="editinfo"><img src=" src/img/icons/edit.png" id="editClient" data-cid="<?php echo $clients['cid'] ?>"> </span>
                     <div class="client__info__group">
@@ -77,7 +84,7 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
                     </div>
 
                 </div>
-                <div class="client__info__widget client__info__vehicle">
+                <div class="client__info__widget client__info__vehicle darked">
                     <h3 class="blue">Datos del vehiculo</h3>
                     <span class="editinfo"><img src=" src/img/icons/edit.png" id="editCar" data-car_id="<?php echo $clients_car_info['id'] ?>" data-cid="<?php echo $cid ?>"> </span>
                     <div class="client__info__group">
@@ -114,6 +121,14 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
                             <h4>Color</h4>
                             <p><?php echo $clients_car_info['color'] ?></p>
                         </div>
+                        <?php if($mantenaince): ?>
+                        <div class="client__info__group__data client__info__group__data--mantenaince ">
+                        <span class="editinfo editinfo--mantenaince " ><img src=" src/img/icons/edit.png" id="edit_mantenaince" data-car_id="<?php echo $clients_car_info['id'] ?>" data-cid="<?php echo $cid ?>"> </span>
+                            <h4>Mantenimiento 
+                            </h4>
+                            <p><?php echo $mantenaince['date_from'] . " / " . $mantenaince['date_until'] ?></p>
+                        </div>
+                        <?php endif;?>
 
 
                     </div>
@@ -128,7 +143,7 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
 
             </div>
 
-            <div class="client__info__widget client__ensurance">
+            <div class="client__info__widget client__ensurance darked">
                 <!-- Informacion de la poliza -->
                 <div class="client__ensurance__header">
                     <span title="Renovar póliza"><img src=" src/img/icons/renewable.png" id="renew" alt="Icono de renovación" data-car_plate="<?php echo $see_car_policy['car_plate'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paymethod="<?php echo $see_car_policy['payMethod'] ?>" data-type="<?php echo $see_car_policy['type'] ?>" data-value="<?php echo $see_car_policy['value'] ?>" data-valueserv="<?php echo $see_car_policy['totalAdditional'] ?>" data-cid="<?php echo $see_car_policy['cid'] ?> "></span>
@@ -214,7 +229,7 @@ $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->row
             </div>
 
 
-            <div class="client__info__widget client__ensurance">
+            <div class="client__info__widget client__ensurance darked">
                 <h4 class="blue" style="text-align: center;">Servicios adicionales</h4>
                 <div class="client__info__group">
 

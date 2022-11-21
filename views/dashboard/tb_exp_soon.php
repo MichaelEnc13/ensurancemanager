@@ -12,7 +12,7 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
 </style>
 <h2 class="blue">Próximo a vencer</h2>
 
-<table id="table">
+<table id="table"  class="table-hover display  dataTable dtr-inline collapsed">
     <thead>
         <tr>
             <td>id</td>

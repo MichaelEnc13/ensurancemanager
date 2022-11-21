@@ -11,7 +11,7 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
     border: 1px solid var(--main-color);
 }
 </style>
-<h2 class="blue">Expirados</h2>
+<h2 class="blue">Requiere mantenimiento</h2>
 
 <table id="table"  class="table-hover display  dataTable dtr-inline collapsed">
     <thead>

@@ -1,13 +1,16 @@
 //animacion de los label en el formulario de registro principal
 /* $("input").focus(function(e) {
-    $(`.${e.target.parentElement.classList[0] } label`).css("top", "0%");
-    console.log(e.target.parentElement.classList[0]);
-});
+        $(`.${e.target.parentElement.classList[0] } label`).css("top", "0%");
+        console.log(e.target.parentElement.classList[0]);
+    });
 
-$(".form__input__control").focusout(function(e) {
-    $(".form__input__control label").css("top", "37%");
+    $(".form__input__control").focusout(function(e) {
+        $(".form__input__control label").css("top", "37%");
 
-}); */
+    }); 
+*/
+
+
 
 
 let init_table = () => {
@@ -1006,7 +1009,9 @@ $(document).on("click", function(e) {
 
 
             break;
+
         case "deletecar":
+
             cid = e.target.dataset.cid;
             var policynumber = e.target.dataset.policynumber
             var car_id = e.target.dataset.car_id;
@@ -1096,6 +1101,198 @@ $(document).on("click", function(e) {
 
 
             break;
+        case "save_mantenaince":
+
+
+            var form = document.querySelector("body form.add_mantenaince");
+            var data = new FormData(form);
+            cid = e.target.dataset.cid;
+            var car_id = e.target.dataset.car_id;
+            data.append("cid", cid)
+            data.append("car_id", car_id)
+            data.append("save_mantenaince", true)
+
+
+            $.ajax({
+                type: "POST",
+                url: "api/controller/client.controller.php",
+                data: data,
+                processData: false,
+                contentType: false,
+
+
+                success: function(res) {
+                    console.log(res);
+                    switch (res) {
+                        case "1" || true:
+                            $("#modal_loader").css("display", "none");
+                            $(".overlay").css("display", "none");
+
+                            Swal.fire({
+                                title: 'Se agregó la fecha de mantenimiento',
+                                text: '',
+                                icon: 'success'
+
+                            })
+                            start_session("car_id", false)
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+                                params: `cid=${cid}`,
+
+
+                            })
+                            break;
+
+                        default:
+
+                            Swal.fire({
+                                title: "Acción no realizada",
+                                text: 'Ha ocurrido un error, inténtalo de nuevo',
+                                footer: 'Si el error persiste, contacta a soporte',
+                                icon: 'error'
+
+                            })
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+
+                            })
+                            break;
+
+                    }
+
+                }
+            });
+
+            break;
+        case "edit_mantenaince":
+            var form = document.querySelector("body form.edit_mantenaince");
+            var data = new FormData(form);
+            cid = e.target.dataset.cid;
+            var car_id = e.target.dataset.car_id;
+            data.append("cid", cid)
+            data.append("car_id", car_id)
+            data.append("edit_mantenaince", true)
+
+
+            $.ajax({
+                type: "POST",
+                url: "api/controller/client.controller.php",
+                data: data,
+                processData: false,
+                contentType: false,
+
+
+                success: function(res) {
+                    console.log(res);
+                    switch (res) {
+                        case "1" || true:
+                            $("#modal_loader").css("display", "none");
+                            $(".overlay").css("display", "none");
+
+                            Swal.fire({
+                                title: 'Se ha editado la fecha de mantenimiento',
+                                text: '',
+                                icon: 'success'
+
+                            })
+                            start_session("car_id", false)
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+                                params: `cid=${cid}`,
+
+
+                            })
+                            break;
+
+                        default:
+
+                            Swal.fire({
+                                title: "Acción no realizada",
+                                text: 'Ha ocurrido un error, inténtalo de nuevo',
+                                footer: 'Si el error persiste, contacta a soporte',
+                                icon: 'error'
+
+                            })
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+
+                            })
+                            break;
+
+                    }
+
+                }
+            });
+
+
+            break;
+        case "remove_mantenaince":
+
+            cid = e.target.dataset.cid;
+            var car_id = e.target.dataset.car_id;
+
+            var data = {
+                cid,
+                car_id,
+                remove_mantenaince: true
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "api/controller/client.controller.php",
+                data: data,
+
+
+                success: function(res) {
+                    console.log(res);
+                    switch (res) {
+                        case "1" || true:
+                            $("#modal_loader").css("display", "none");
+                            $(".overlay").css("display", "none");
+
+                            Swal.fire({
+                                title: 'Se ha quitado la fecha de mantenimiento',
+                                text: '',
+                                icon: 'success'
+
+                            })
+                            start_session("car_id", false)
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+                                params: `cid=${cid}`,
+
+
+                            })
+                            break;
+
+                        default:
+
+                            Swal.fire({
+                                title: "Acción no realizada",
+                                text: 'Ha ocurrido un error, inténtalo de nuevo',
+                                footer: 'Si el error persiste, contacta a soporte',
+                                icon: 'error'
+
+                            })
+                            viewLoader({
+                                title: "client",
+                                path: "clients/client.php",
+
+                            })
+                            break;
+
+                    }
+
+                }
+            });
+
+
+            break;
         case "notify-client":
             var cname = e.target.dataset.cname;
             car_plate = e.target.dataset.car_plate;
@@ -1116,7 +1313,59 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
             location.href = `whatsapp://send/?phone=${tel}&text=${msg}`
                 //console.log(msg);
             break;
+            /* Configuracion del sistema */
+        case "save_config":
+            var form = document.querySelector("body form.save_config");
+            var data = new FormData(form);
+            var id = e.target.dataset.id
+            data.append("id", id)
+            data.append("save_config", true)
+            var pass = data.get("change_pass")
+            var rpass = data.get("change_pass_r")
 
+            if (pass != "" && rpass != "") {
+                if (pass != rpass) {
+                    Swal.fire({
+                        title: 'Las contraseñas no coinciden',
+                        text: 'Verifica los campos',
+                        icon: 'error'
+
+                    })
+                    return false;
+                }
+            }
+            $(".saving").css("display", "block");
+
+            $.ajax({
+                type: "POST",
+                url: "api/controller/user.controller.php",
+                data,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+                    res = JSON.parse(res);
+                    $(".saving").css("display", "none");
+                    if (typeof(res) == "object") {
+                        switch (res.status) {
+                            case true:
+                                $("body .nav__user").text(res.fname);
+                                Swal.fire({
+                                    title: 'Cambios realizados',
+                                    text: '.....',
+                                    icon: 'success'
+
+                                })
+                                break;
+
+                        }
+                    }
+
+
+                }
+            });
+
+
+            break;
             /*Salir del sistema */
 
         case "logout":

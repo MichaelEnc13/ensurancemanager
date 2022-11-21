@@ -1,4 +1,5 @@
-<div id="modal_loader">
+ 
+<div id="modal_loader" class="modal_loader darked">
     <?php include "modals/modal.header.php" ?>
 
     <div id="modal__loader__body">
@@ -7,3 +8,4 @@
 
 
 </div>
+
