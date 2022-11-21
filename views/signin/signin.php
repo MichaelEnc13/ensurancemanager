@@ -36,7 +36,7 @@ endif;
 
                     <div class="form__input__control">
                         <label for="fname">Contraseña</label>
-                        <input class="password" type="text" name="password" placeholder="**********">
+                        <input class="password" type="password" name="password" placeholder="**********">
                     </div>
                 </div>
 

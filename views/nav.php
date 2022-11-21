@@ -18,7 +18,7 @@
     </div>
 
     <div class="nav__loguot">
-        <span id="logout" style="cursor: pointer;"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+        <span style="cursor: pointer;"><i id="logout"  class="fa-solid fa-arrow-right-from-bracket"></i></span>
     </div>
 
 

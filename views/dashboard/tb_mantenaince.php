@@ -2,12 +2,12 @@
 include file_exists("api/model/autoload.php") ? "api/model/autoload.php" : "../../api/model/autoload.php";
 
 
-$policies = Dashboard::get_policies()['data']->fetchAll();
+$mantenainces = Dashboard::get_mantenaince()['data']->fetchAll();
 
 ?>
 
 <style>
-#getExpired{
+#getMantenaince{
     border: 1px solid var(--main-color);
 }
 </style>
@@ -21,41 +21,37 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
             <td>Nombre</td>
             <td>Apellido</td>
 
-            <td>Matricula</td>
             <td>Desde</td>
             <td>Hasta</td>
             <td>Retraso </td>
             <td>Visualizar</td>
-            <td>Notificar</td>
+          
         </tr>
     </thead>
 
     <tbody>
-        <?php foreach ($policies  as $policies) :
-            $client = Client::see_client_info($policies['cid'])['data']->fetch();
-            $date = CalDate::diffDate(date("d-m-Y"), $policies['date_until']);
-            $car_plate = Client::see_client_cars($client['cid'], $policies['car_plate'])['data']->fetch()['plate'];
+        <?php foreach ($mantenainces  as $mantenaince) :
+            $client = Client::see_client_info($mantenaince['cid'])['data']->fetch();
+            $date = CalDate::diffDate(date("d-m-Y"), $mantenaince['date_until']);
+            $car_plate = Client::see_client_cars($client['cid'], $mantenaince['id'])['data']->fetch()['id'];
             // Para ver si el que cliente expira pronto -->
-            
-            if ($date < 0) :
+                
+            if ($date < 0 && $date < 8) :
         ?>
 
 
                 <!-- Buscar la cantidad de vehiculos de un cliente -->
-                <?php $cant_car = Client::see_client_cars($policies['cid'], false)['data']->rowCount(); ?>
+                <?php $cant_car = Client::see_client_cars($mantenaince['cid'], false)['data']->rowCount(); ?>
                 <tr>
                     <td><?php echo $client['id'] ?></td>
                     <td><?php echo $client['cid'] ?></td>
                     <td><?php echo $client['fname'] ?></td>
                     <td><?php echo $client['lname'] ?></td>
-                    <td><?php echo  $car_plate  ?></td>
-                    <td><?php echo $policies['date_from'] ?></td>
-                    <td><?php echo $policies['date_until'] ?></td>
-                    <td><?php echo substr(CalDate::diffDate(date("d-m-Y"), $policies['date_until']),-1)." día(s)" ?></td>
-                    <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td>                    <td><button class="btn table__btn ">
-                            <img src="src/img/icons/whatsapp.png" id="notify-client" data-message="expired" data-car_plate="<?php echo $policies['car_plate'] ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname']." ".$client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>"  data-date_from="<?php echo $policies['date_from'] ?>"  data-date_until="<?php echo $policies['date_until'] ?>">
-                        </button>
-                    </td>
+                    <td><?php echo $mantenaince['date_from'] ?></td>
+                    <td><?php echo $mantenaince['date_until'] ?></td>
+                    <td><?php echo CalDate::diffDate(date("d-m-Y"), $mantenaince['date_until'])." día(s)" ?></td>
+                    <td><button id="view-client-car-info" data-car_id="<?php echo $mantenaince['car_id'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td> 
+     
 
                 </tr>
         <?php endif;

@@ -8,6 +8,7 @@
 $clients = Dashboard::get_clients()['data']->rowCount();
 $vehicles = Dashboard::get_vehicles()['data']->rowCount();
 $policies = Dashboard::get_policies()['data']->rowCount();
+$mantenaince = Dashboard::get_mantenaince_soon();
 $status = Dashboard::get_policies_status();
 $expireSoon = Dashboard::get_policies_expireSoon();
 
@@ -44,9 +45,9 @@ $expireSoon = Dashboard::get_policies_expireSoon();
     </div>
     <div class="widgets__item darked widgets__item--actions widgets__item--actived" id="getMantenaince">
         <span class="widgets__item__title " >Mantenimiento</span>
-        <span class="widgets__item__body"><?php echo $policies ?></span>
+        <span class="widgets__item__body"><?php echo $mantenaince ?></span>
     </div>
-    <div class="widgets__item darked widgets__item--actions">
+    <div class="widgets__item darked widgets__item--actions ">
         <button id="newClient" class="btn widgets__item__btn">Nuevo registro</button>
        <!--  <button id="sendAlert" class="btn widgets__item__btn">Enviar alerta</button> -->
     </div>
