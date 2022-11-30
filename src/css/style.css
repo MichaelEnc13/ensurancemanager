@@ -15,6 +15,16 @@
     --shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
+*::-webkit-scrollbar {
+    background-color: var(--main-color);
+    width: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 15px;
+}
+
 .blue {
     color: #5f89fb;
 }
@@ -263,7 +273,7 @@ input:not(input[type="checkbox"]) {
 .nav {
     width: 100%;
     display: grid;
-    grid-template-columns: 5% 10% 20% 35% 30%;
+    grid-template-columns: auto auto 20% 35% 5% 25%;
     text-align: center;
     align-items: center;
 }
@@ -281,6 +291,73 @@ input:not(input[type="checkbox"]) {
     font-weight: bold;
     color: var(--color);
     font-family: var(--fm);
+}
+
+.notification {
+    position: relative;
+    cursor: pointer;
+}
+
+.fa-bell {
+    color: rgb(163, 139, 1);
+}
+
+.notification_badge {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: red;
+}
+
+.notification_block {
+    width: 30%;
+    background-color: white;
+    box-shadow: var(--shadow);
+    max-height: 300px;
+    overflow-y: scroll;
+    position: absolute;
+    right: 10px;
+    border-radius: 5px;
+    padding: 5px;
+    display: none;
+    z-index: 5;
+}
+
+.notification_block_show {
+    display: block;
+}
+
+.notifications {
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    border-radius: 7px;
+    padding: 15px;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    row-gap: 15px;
+}
+
+.notifications_title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--color);
+}
+
+.title {
+    color: var(--main-color);
+}
+
+
+/* Se usa para que el grid no se desforme al momento de ocultar el boton de configuracion */
+
+.refill {
+    display: none;
+}
+
+.nav__loguot {
+    text-align: right;
+    padding-right: 20px;
 }
 
 .toggle {
@@ -748,14 +825,14 @@ input[type=checkbox] {
 /*  INFORMACION DE LA POLIZA EN IMPRESION*/
 
 .policy_container {
-    padding-top: 3.5cm;
-    padding-left: 2.2cm;
+    padding-top: 3.3cm;
+    padding-left: 2.3cm;
 }
 
 .policy__print {
     width: 8.2cm;
     height: 5cm;
-    /*  background-color: #a5a5a5; */
+    background-color: #a5a5a5;
     font-size: 12px;
     text-transform: uppercase;
 }
@@ -879,6 +956,13 @@ input[type=checkbox] {
     margin: 15px;
 }
 
+.group_temple_pos {
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 15px;
+    margin: 15px 0px 15px 0px;
+}
+
 .main_config .widget span {
     display: block;
     color: var(--color);
@@ -902,6 +986,7 @@ input[type=checkbox] {
     align-items: center;
     column-gap: 15px;
     padding: 15px 0px;
+    margin: 15px 0px 15px 0px;
 }
 
 .dark_toggle {

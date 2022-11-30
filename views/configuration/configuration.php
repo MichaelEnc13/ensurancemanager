@@ -1,9 +1,22 @@
 <?php
 include file_exists("api/model/autoload.php") ? "api/model/autoload.php" : "../../api/model/autoload.php";
 if (session_status() != 2) session_start();
-
+$template_pos = Client::see_settings("template_pos")['data']->fetch();
+$positions = json_decode($template_pos['template_pos'], true);
+$posX = $positions['posX'];
+$posY = $positions['posY'];
 
 ?>
+ <style>
+
+    .toggle{
+        display: none;
+    }
+
+    .refill{
+        display: block;
+    }
+</style>  
 <div class="config_container">
     <div class="config_header">
         <h2>Configuración </h2>
@@ -51,7 +64,19 @@ if (session_status() != 2) session_start();
                         </div>
                         <i class="fa-regular fa-moon"></i>
                     </div>
-                    <h3>Información del sistema</h3>
+                    <h4>Ajustar plantilla de poliza en la hoja</h4>
+                    <div class="group_temple_pos">
+                        <div class="form_control">
+                            <label for="">Arriba hacia abajo <i class="fa-solid fa-up-down"></i></label>
+                            <input type="text" name="pos_y" value="<?php echo $posY ?>" class="input" placeholder="Por defecto: 3.3cm">
+
+                        </div>
+                        <div class="form_control">
+                            <label for="">Izquierda a derecha <i class="fa-solid fa-left-right"></i></label>
+                            <input type="text" name="pos_x" value="<?php echo $posX ?>" class="input" placeholder="Por defecto: 2.3cm">
+                        </div>
+                    </div>
+
                     <p>Version</p>
                     <span><?php echo $_SESSION['version'] ?></span>
 
@@ -74,9 +99,9 @@ if (session_status() != 2) session_start();
                 </div>
                 <h3>Método de pago</h3>
 
-                 <button class="btn btn--blue" id="payPal"><i class="fa-brands fa-paypal"></i> PayPal</button>
-                 <button class="btn btn--blue" id="azul">Pagos AZUL</button>
-                 <button class="btn btn--blue" id="transfer"><i class="fa-solid fa-money-bill-transfer"></i> Transferencia</button>
+                <button class="btn btn--blue" id="payPal"><i class="fa-brands fa-paypal"></i> PayPal</button>
+                <button class="btn btn--blue" id="azul">Pagos AZUL</button>
+                <button class="btn btn--blue" id="transfer"><i class="fa-solid fa-money-bill-transfer"></i> Transferencia</button>
             </div>
 
         </div>

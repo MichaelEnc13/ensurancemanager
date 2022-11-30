@@ -21,11 +21,19 @@ $mantenaince = Client::see_car_mantenaince($car_id, $cid)['data']->fetch();
                 <label for="date">Fecha límite</label>
                 <input type="text" name="date_until" class="date" id="date_until" placeholder="xx/xx/xxxx" value="<?php echo $mantenaince['date_until'] ?>" autocomplete="off">
             </div>
+            <div class="form_control">
+                <label for="date">Marca del aceite</label>
+                <input type="text" name="oil_type" class="date"   placeholder="--------" value="<?php echo $mantenaince['oil_type'] ?>" autocomplete="off">
+            </div>
+            <div class="form_control">
+                <label for="date">Grado del aceite</label>
+                <input type="text" name="oil_grade" class="date"   placeholder="---------" value="<?php echo $mantenaince['oil_grade'] ?>" autocomplete="off">
+            </div>
         </div>
         <?php if (!isset($_GET['edit'])) : ?>
-            <button class="btn btn--blue" id="save_mantenaince">Agregar fecha</button>
+            <button class="btn btn--blue" id="save_mantenaince">Agregar mantenimiento</button>
         <?php else : ?>
-            <button class="btn btn--blue" id="edit_mantenaince" data-cid="<?php echo $cid ?>" data-car_id="<?php echo $car_id ?>">Editar fecha</button>
+            <button class="btn btn--blue" id="edit_mantenaince_info" data-cid="<?php echo $cid ?>" data-car_id="<?php echo $car_id ?>">Editar fecha</button>
         <?php endif; ?>
     </form>
 </div>

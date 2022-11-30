@@ -11,6 +11,15 @@ if (isset($_POST['save_config'])) :
         $_POST['email'],
         $id
     );
+
+    $posX = $_POST['pos_x'];
+    $posY = $_POST['pos_y'];
+    $pos = array(
+        "posX" => $posX,
+        "posY" => $posY
+    );
+    $json_pos = json_encode($pos);
+     Client::settings($json_pos )['status'];
     //Modificar contraseña si existe la petición
     if ($_POST['change_pass'] != "") :
         $newPass = password_hash($_POST['change_pass'],PASSWORD_BCRYPT);

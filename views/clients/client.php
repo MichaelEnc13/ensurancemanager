@@ -27,8 +27,8 @@ $see_car_policy = Client::see_car_policy($car_id_policy, $cid)['data']->fetch();
 $dueInfo = Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->fetch();
 $cantDues =  Client::dueInfo($see_car_policy['policynumber'], $cid)['data']->rowCount(); //cantidad de cuotas;
 //Ver mantenimiento del vehiculo
-$mantenaince = Client::see_car_mantenaince( $clients_car_info['id'] , $cid)['data']->fetch();
- 
+$mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data']->fetch();
+
 ?>
 
 
@@ -51,8 +51,8 @@ $mantenaince = Client::see_car_mantenaince( $clients_car_info['id'] , $cid)['dat
             <!-- Controles de acciones -->
             <button class="btn btn--blue" id="newCar" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-car"></i> Agregar vehículo</button>
             <button class="btn btn--red-no-border" id="deletecar" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $car_id ?>" data-cid="<?php echo $cid ?>"><i class="fa-solid fa-car-burst"></i> Eliminar vehiculo</button>
-            <button class="btn btn--green-no-border" id="add_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Mantenimiento</button>
-            <button class="btn btn--orange-no-border" id="remove_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Quitar fecha</button>
+            <button class="btn btn--green-no-border" id="add_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Agregar mantenimiento</button>
+            <button class="btn btn--orange-no-border" id="remove_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Quitar mantenimiento</button>
         </div>
 
         <div class="client__info__container">
@@ -121,14 +121,18 @@ $mantenaince = Client::see_car_mantenaince( $clients_car_info['id'] , $cid)['dat
                             <h4>Color</h4>
                             <p><?php echo $clients_car_info['color'] ?></p>
                         </div>
-                        <?php if($mantenaince): ?>
-                        <div class="client__info__group__data client__info__group__data--mantenaince ">
-                        <span class="editinfo editinfo--mantenaince " ><img src=" src/img/icons/edit.png" id="edit_mantenaince" data-car_id="<?php echo $clients_car_info['id'] ?>" data-cid="<?php echo $cid ?>"> </span>
-                            <h4>Mantenimiento 
-                            </h4>
-                            <p><?php echo $mantenaince['date_from'] . " / " . $mantenaince['date_until'] ?></p>
-                        </div>
-                        <?php endif;?>
+                        <?php if ($mantenaince) : ?>
+                            <div class="client__info__group__data client__info__group__data--mantenaince ">
+                                <span class="editinfo editinfo--mantenaince "><img src=" src/img/icons/edit.png" id="edit_mantenaince" data-car_id="<?php echo $clients_car_info['id'] ?>" data-cid="<?php echo $cid ?>"> </span>
+                                <h4>Mantenimiento
+                                </h4>
+                                <p><?php echo $mantenaince['date_from'] . " / " . $mantenaince['date_until'] ?></p>
+                                <h4>Marca y grado del aceite
+                                </h4>
+
+                                <p><?php echo $mantenaince['oil_type'] . " | " . $mantenaince['oil_grade'] ?></p>
+                            </div>
+                        <?php endif; ?>
 
 
                     </div>

@@ -380,6 +380,8 @@ $(document).on("click", function(e) {
 
     let cid;
     let car_plate;
+
+
     switch (e.target.id) {
         case "registerNewClient": //registrar nuevo cliente y su vehiculo
             var form = document.querySelector("body .form_new_register");
@@ -1166,7 +1168,7 @@ $(document).on("click", function(e) {
             });
 
             break;
-        case "edit_mantenaince":
+        case "edit_mantenaince_info":
             var form = document.querySelector("body form.edit_mantenaince");
             var data = new FormData(form);
             cid = e.target.dataset.cid;

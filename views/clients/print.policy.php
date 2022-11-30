@@ -5,13 +5,16 @@
     $policynumber = Client::see_car_policy($car_id, $cid)['data']->fetch();
     $car_info = Client::see_client_cars($cid, $policynumber['car_plate'])['data']->fetch();
     $client = Client::see_client_info($cid)['data']->fetch();
-
+    $template_pos = Client::see_settings("template_pos")['data']->fetch();
+    $positions = json_decode($template_pos['template_pos'],true);
+    $posX = $positions['posX']."cm";
+    $posY = $positions['posY']."cm";
 
     ?>
 
  
- <div class="policy_container">
-     <div class="policy__print">
+ <div class="policy_container" style="padding-left:<?php echo  $posX?>;padding-top:<?php echo  $posY?>">
+     <div class="policy__print"  >
          <div class="policy__print__info policy__print__info--maininfo">
              <span>Cliente:</span>
              <p><?php echo $client['fname'] . " " . $client['lname'] ?></p>

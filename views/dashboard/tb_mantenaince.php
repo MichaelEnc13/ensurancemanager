@@ -33,10 +33,10 @@ $mantenainces = Dashboard::get_mantenaince()['data']->fetchAll();
         <?php foreach ($mantenainces  as $mantenaince) :
             $client = Client::see_client_info($mantenaince['cid'])['data']->fetch();
             $date = CalDate::diffDate(date("d-m-Y"), $mantenaince['date_until']);
-            $car_plate = Client::see_client_cars($client['cid'], $mantenaince['id'])['data']->fetch()['id'];
+            $car_plate = Client::see_client_cars($client['cid'], $mantenaince['car_id'])['data']->fetch()['id'];
             // Para ver si el que cliente expira pronto -->
-                
-            if ($date < 0 && $date < 8) :
+            echo $date;
+            if ($date < 8) :
         ?>
 
 
@@ -49,7 +49,12 @@ $mantenainces = Dashboard::get_mantenaince()['data']->fetchAll();
                     <td><?php echo $client['lname'] ?></td>
                     <td><?php echo $mantenaince['date_from'] ?></td>
                     <td><?php echo $mantenaince['date_until'] ?></td>
-                    <td><?php echo CalDate::diffDate(date("d-m-Y"), $mantenaince['date_until'])." día(s)" ?></td>
+                    <td>
+                        <?php 
+                        $days = CalDate::diffDate(date("d-m-Y"), $mantenaince['date_until']);
+                        echo $days<0?$days." día(s)":"Sin retrasos" ?>
+                    
+                    </td>
                     <td><button id="view-client-car-info" data-car_id="<?php echo $mantenaince['car_id'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td> 
      
 

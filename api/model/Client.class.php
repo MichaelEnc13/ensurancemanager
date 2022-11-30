@@ -246,12 +246,12 @@ class Client
         return Db::queries("SELECT * FROM policy WHERE cid = ? AND car_plate = ? AND uid = ?", $values);
     }
 
-    public static function add_mantenaince_date($car_id,$cid,$date_from,$date_until){
+    public static function add_mantenaince_date($car_id,$cid,$date_from,$date_until,$oil_type,$oil_grade){
         $values = array(
-            $date_from,$date_until, $car_id,$cid,$_SESSION['user']['id']
+            $date_from,$date_until,$oil_type,$oil_grade, $car_id,$cid,$_SESSION['user']['id']
         );
-        return Db::queries("INSERT INTO mantenaince (date_from,date_until,car_id,cid,uid	
-        ) VALUES(?,?,?,?,? )", $values);
+        return Db::queries("INSERT INTO mantenaince (date_from,date_until,oil_type,oil_grade,car_id,cid,uid	
+        ) VALUES(?,?,?,?,?,?,?)", $values);
 
     }
 
@@ -263,12 +263,12 @@ class Client
         return Db::queries("SELECT * FROM mantenaince WHERE cid = ? AND car_id = ? AND uid = ?", $values);
     }
 
-    public static function edit_mantenaince_date($car_id, $cid,$date_from,$date_until)
+    public static function edit_mantenaince_date($car_id, $cid,$date_from,$date_until,$oil_type,$oil_grade)
     {
         $values = array(
-            $date_from,$date_until, $cid, $car_id, $_SESSION['user']['id']
+            $date_from,$date_until,$oil_type,$oil_grade, $cid, $car_id, $_SESSION['user']['id']
         );
-        return Db::queries("UPDATE mantenaince SET date_from = ?, date_until = ? WHERE cid = ? AND car_id = ? AND uid = ?", $values);
+        return Db::queries("UPDATE mantenaince SET date_from = ?, date_until = ? ,oil_type = ?,oil_grade=? WHERE cid = ? AND car_id = ? AND uid = ?", $values);
     }
 
     public static function remove_mantenaince($car_id, $cid)
@@ -278,4 +278,26 @@ class Client
         $query =  "DELETE FROM mantenaince WHERE car_id = ?  AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
+
+    public static function settings($template_pos){
+        $values = array($template_pos,$_SESSION['user']['id'] );
+        /* Elegir el tipo de consulta que se va a ultilizar para la configuración */
+        $addConfig = "INSERT INTO settings (template_pos,uid	
+        ) VALUES(?,?)";
+        $updateConfig = "UPDATE settings SET template_pos = ? WHERE uid = ?";
+        $query = Client::see_settings("template_pos")['data']->fetch()? $updateConfig:$addConfig;
+        return Db::queries($query, $values);
+
+    }
+
+    public static function see_settings($config)
+    {
+        $values = array(
+            $_SESSION['user']['id']
+        );
+        return Db::queries("SELECT $config FROM settings WHERE uid = ?", $values);
+    }
+
+
+
 }

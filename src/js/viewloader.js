@@ -130,6 +130,7 @@ $("body").on("click", function(e) {
 
     let cid = e.target.dataset.cid;
     let actionId = e.target.id ? e.target.id : e.target.parentElement.id
+    console.log(actionId);
     switch (actionId) {
         case "loadLogin": ///cargar login
             viewLoader({
@@ -219,8 +220,8 @@ $("body").on("click", function(e) {
             break;
         case "modal__header__close": //cerrar las modales
             $("#modal__header__title").text("");
-            $("#modal_loader,.overlay").css("display", "none");
             $("#modal__loader__body").html("");
+            $("#modal_loader,.overlay").css("display", "none");
 
             break;
         case "overlay": //cerrar las modales y overlay
@@ -513,6 +514,9 @@ $("body").on("click", function(e) {
                 }
             })
             break;
+        case "notification":
+            $(".notification_block").toggleClass("notification_block_show");
+            break;
         case "payPal": //Load payPal
             viewLoader({
                 modal: true,
@@ -523,6 +527,9 @@ $("body").on("click", function(e) {
 
                 }
             })
+            break;
+        default:
+            $(".notification_block").removeClass("notification_block_show");
             break;
     }
 

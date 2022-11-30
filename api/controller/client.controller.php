@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Contracts\Filesystem\Cloud;
 
 include "../model/autoload.php";
 
@@ -61,6 +60,7 @@ if (isset($_POST['saveClientInfo'])) : //edita la info de un cliente
             $_POST['email']
         );
 
+      
         if ($_POST['cid'] != $_POST['newcid']) :
             Client::editGlobalInfo($_POST['cid'], $_POST['newcid']);
         endif;
@@ -136,9 +136,9 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
         $_POST['type'],
         $_POST['value'],
         $_POST['totalAdditional'],
-        isset($_POST['initial'])?$_POST['initial']:0,
+        isset($_POST['initial']) ? $_POST['initial'] : 0,
         $_POST['pay_method'],
-        isset($_POST['time'])?$_POST['time']:0,
+        isset($_POST['time']) ? $_POST['time'] : 0,
         $_POST['aditional'],
         $_POST['car_id'],
         $_POST['date_from'],
@@ -211,7 +211,7 @@ if (isset($_POST['payoff'])) : //salda todas las cuotas
 
     if ($done['status']) :
 
-        $updated = Client::updatePolicyDate($_POST['policynumber'],$_POST['cid'], CalDate::in1Year());
+        $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
 
     else :
@@ -347,46 +347,51 @@ if (isset($_POST['deletePolicy'])) : //elimina la poliza
 
 endif;
 
-if(isset($_POST['save_mantenaince'])):
+if (isset($_POST['save_mantenaince'])) :
     $done = Client::add_mantenaince_date(
         $_POST['car_id'],
         $_POST['cid'],
         $_POST['date_from'],
-        $_POST['date_until']
+        $_POST['date_until'],
+        $_POST['oil_type'],
+        $_POST['oil_grade']
     );
 
-    if($done['status']):
+    if ($done['status']) :
         echo $done['status'];
-    else:
+    else :
         echo $done['error'][1];
     endif;
 endif;
 
-if(isset($_POST['edit_mantenaince'])):
+if (isset($_POST['edit_mantenaince'])) :
     $done = Client::edit_mantenaince_date(
         $_POST['car_id'],
         $_POST['cid'],
         $_POST['date_from'],
-        $_POST['date_until']
+        $_POST['date_until'],
+        $_POST['oil_type'],
+        $_POST['oil_grade']
+
     );
 
-    if($done['status']):
+    if ($done['status']) :
         echo $done['status'];
-    else:
+    else :
         echo $done['error'][1];
     endif;
 endif;
 
-if(isset($_POST['remove_mantenaince'])):
+if (isset($_POST['remove_mantenaince'])) :
     $done = Client::remove_mantenaince(
         $_POST['car_id'],
         $_POST['cid'],
-    
+
     );
 
-    if($done['status']):
+    if ($done['status']) :
         echo $done['status'];
-    else:
+    else :
         echo $done['error'][1];
     endif;
 endif;
