@@ -226,9 +226,9 @@ class Client
     }
     public static function updatePolicyDate($policynumber, $cid, $time)
     { //se actuliza la fecha de la poliza a futuro
-        $now = date("d-m-Y");
-        $values = array($now, $time, $policynumber, $cid, $_SESSION['user']['id']);
-        $query =  "UPDATE policy SET date_from = ?, date_until = ? WHERE  policynumber = ? AND cid = ? AND uid = ?";
+        //$now = date("d-m-Y");
+        $values = array( $time, $policynumber, $cid, $_SESSION['user']['id']);
+        $query =  "UPDATE policy SET date_until = ? WHERE  policynumber = ? AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
     public static function change_policy_status($car_id, $cid)
