@@ -166,7 +166,7 @@ class Client
         $values = array(
             $policynumber, $cid, $_SESSION['user']['id']
         );
-        return Db::queries("DELETE FROM policy_due   WHERE policynumber = ? AND cid = ? AND uid = ?", $values);
+        return Db::queries("DELETE FROM policy_dues  WHERE policynumber = ? AND cid = ? AND uid = ?", $values);
     }
     public static function update_car_policy_status($car_id, $cid)
     { //actualiza el estado del vehiculo asegurado

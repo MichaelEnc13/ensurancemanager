@@ -46,7 +46,7 @@ if (isset($_POST['newClient'])) : //agrega un cliente y su vehiculo
     endif;
 endif;
 
-if (isset($_POST['saveClientInfo'])) : //edita la info de un cliente
+if (isset($_POST['saveClientInfo'])) : //edita la info de un cliente@@@
 
     if ($_POST['email'] == "" || filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) : //verificar correo valido
 
@@ -128,19 +128,22 @@ if (isset($_POST['registerNewCar'])) : //registra un nuevo vehiculo
 endif;
 
 if (isset($_POST['newPolicy'])) : //registra la nueva poliza
-
+    $policynumber = $_POST['policy_number'];
     $cid = $_POST['cid'];
+    $value = $_POST['value'];
+    $initial = isset($_POST['initial']) ? $_POST['initial'] : 0;
+    $car_id = $_POST['car_id'];
     $futureDate = $_POST['pay_method'] == "0" ? CalDate::some_months(12) : CalDate::some_months(1);
     $done = Client::new_policy(
-        $_POST['policy_number'],
+        $policynumber,
         $_POST['type'],
-        $_POST['value'],
+        $value,
         $_POST['totalAdditional'],
-        isset($_POST['initial']) ? $_POST['initial'] : 0,
+        $initial,
         $_POST['pay_method'],
         isset($_POST['time']) ? $_POST['time'] : 0,
         $_POST['aditional'],
-        $_POST['car_id'],
+        $car_id,
         $_POST['date_from'],
         $_POST['date_until'],
         $cid,
@@ -149,7 +152,7 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     );
 
     if ($done['status']) :
-        $ensured = Client::change_policy_status($_POST['car_id'], $cid);
+        $ensured = Client::change_policy_status($car_id, $cid);
 
         if ($ensured['status']) :
 
@@ -158,10 +161,10 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
             if ($_POST['pay_method'] == "1") :
                 $time = $_POST['time'];
                 $month = 1;
-                $amount = intval($_POST['value'] / $time);
+                $amount = intval(($value - $initial) / $time);
                 for ($i = 0; $i < $time; $i++) :
                     Client::add_policy_due(
-                        $_POST['policy_number'],
+                        $policynumber,
                         $cid,
                         $month,
                         CalDate::some_months($month),
@@ -341,6 +344,7 @@ if (isset($_POST['deletePolicy'])) : //elimina la poliza
 
 
     );
+    
     Client::deletePolicyDue($_POST['policynumber'], $cid);
     Client::update_car_policy_status($_POST['car_id'], $cid);
     echo $done['status'] ? $done['status'] : "DP" . $done['error'][1];
