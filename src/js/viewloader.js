@@ -130,7 +130,7 @@ $("body").on("click", function(e) {
 
     let cid = e.target.dataset.cid;
     let actionId = e.target.id ? e.target.id : e.target.parentElement.id
-    console.log(actionId);
+        //console.log(actionId);
     switch (actionId) {
         case "loadLogin": ///cargar login
             viewLoader({
@@ -377,6 +377,8 @@ $("body").on("click", function(e) {
             var type = e.target.dataset.type
             var value = e.target.dataset.value
             var valueserv = e.target.dataset.valueserv
+            var date_from = e.target.dataset.date_from
+
             if (policynumber == "") { //asegurarse de que existe la póliza
                 Swal.fire(
                     'No se pudo realizar esta acción',
@@ -386,12 +388,13 @@ $("body").on("click", function(e) {
                 return false;
             }
 
+
             viewLoader({
                 title: "renew policy",
                 path: "clients/newPolicy.modal.php",
                 viewContainer: "#modal__loader__body",
                 modal: true,
-                params: `renew=true&policynumber=${policynumber}&paymethod=${paymethod}&type=${type}&value=${value}&valueserv=${valueserv}`,
+                params: `renew=true&policynumber=${policynumber}&paymethod=${paymethod}&type=${type}&value=${value}&valueserv=${valueserv}&date_from=${date_from}`,
                 modalTitle: "Renovar póliza de seguro",
                 callback: () => {
                     var valueInInput = parseInt($("#additional-edit").val());

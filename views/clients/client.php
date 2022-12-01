@@ -150,7 +150,7 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
             <div class="client__info__widget client__ensurance darked">
                 <!-- Informacion de la poliza -->
                 <div class="client__ensurance__header">
-                    <span title="Renovar póliza"><img src=" src/img/icons/renewable.png" id="renew" alt="Icono de renovación" data-car_plate="<?php echo $see_car_policy['car_plate'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paymethod="<?php echo $see_car_policy['payMethod'] ?>" data-type="<?php echo $see_car_policy['type'] ?>" data-value="<?php echo $see_car_policy['value'] ?>" data-valueserv="<?php echo $see_car_policy['totalAdditional'] ?>" data-cid="<?php echo $see_car_policy['cid'] ?> "></span>
+                    <span title="Renovar póliza"><img src=" src/img/icons/renewable.png" id="renew" alt="Icono de renovación" data-car_plate="<?php echo $see_car_policy['car_plate'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-date_from="<?php echo $see_car_policy['date_from'] ?>" data-paymethod="<?php echo $see_car_policy['payMethod'] ?>" data-type="<?php echo $see_car_policy['type'] ?>" data-value="<?php echo $see_car_policy['value'] ?>" data-valueserv="<?php echo $see_car_policy['totalAdditional'] ?>" data-cid="<?php echo $see_car_policy['cid'] ?> "></span>
                     <h3 class="blue" style="text-align: center;">Datos de la póliza</h3>
                 </div>
 

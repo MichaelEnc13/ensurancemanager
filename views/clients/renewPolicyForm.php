@@ -150,7 +150,7 @@
  --> 
             <div class="client__date__info">
                 <label for="">Desde</label>
-                <input type="text" name="date_from" id="date_from" class="date_info" value="<?php echo date("d-m-Y") ?>" placeholder="xx-xx-xxxx">
+                <input type="text" name="date_from" id="date_from" class="date_info" value="<?php echo $_GET['date_from'] ?>" placeholder="xx-xx-xxxx">
                 <label for="">Hasta</label>
                 <input type="text" name="date_until" id="date_until" class="date_info" value="" placeholder="xx-xx-xxxx">
             </div>
