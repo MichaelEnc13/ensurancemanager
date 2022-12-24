@@ -34,6 +34,7 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
 
 <div class="client">
 
+ 
     <?php if ($clients != false) : ?>
 
 
@@ -49,10 +50,10 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                 <?php endforeach; ?>
             </select>
             <!-- Controles de acciones -->
-            <button class="btn btn--blue" id="newCar" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-car"></i> Agregar vehículo</button>
-            <button class="btn btn--red-no-border" id="deletecar" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $car_id ?>" data-cid="<?php echo $cid ?>"><i class="fa-solid fa-car-burst"></i> Eliminar vehiculo</button>
-            <button class="btn btn--green-no-border" id="add_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Agregar mantenimiento</button>
-            <button class="btn btn--orange-no-border" id="remove_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> Quitar mantenimiento</button>
+            <button class="btn btn--blue" id="newCar" data-action="Agregar vehículo" data-cid="<?php echo $cid ?>"><i class="fa-solid fa-car"></i>+</button>
+            <button class="btn btn--red-no-border" data-action="Eliminar vehiculo" id="deletecar" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $car_id ?>" data-cid="<?php echo $cid ?>"><i class="fa-solid fa-car-burst"></i>-</button>
+            <button class="btn btn--green-no-border" data-action="Agregar mantenimiento" id="add_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> </button>
+            <button class="btn btn--orange-no-border" data-action="Quitar mantenimiento" id="remove_mantenaince" data-car_id="<?php echo  $clients_car_info['id']  ?>" data-cid="<?php echo $cid ?>"> <i class="fa-solid fa-screwdriver-wrench"></i> </button>
         </div>
 
         <div class="client__info__container">
@@ -241,14 +242,19 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                     <div class="client__info__group__data">
                         <!-- Servicios adicionales -->
                         <ul class="aditional_service">
-                            <?php if ($see_car_policy['aditionalService']) : $sv = json_decode($see_car_policy['aditionalService']);
-                                foreach ($sv as $s) : if ($s != "") : ?>
+                            <?php
+                            $addtional_services = Client::get_all_services($see_car_policy['policynumber'])['data']->fetchAll();
 
-                                        <li><?php echo $s; ?></li>
+                            if ($addtional_services) :
+                                /*     : $sv = json_decode($see_car_policy['aditionalService']);
+                             foreach ($sv as $s) : if ($s != "") : ?>*/
+                                foreach ($addtional_services as $service) :
+                                    $service_info = Client::get_services_info($service['service_id'])['data']->fetch();
 
-                                <?php endif;
-                                endforeach;
+                            ?>
+                                    <li><?php echo $service_info['name']; ?></li>
 
+                                <?php endforeach;
                             else : ?>
                                 <p>Sin servicios adicionales</p>
                             <?php endif; ?>

@@ -103,9 +103,10 @@ class Dashboard
         foreach ($status as $st) :
             $date1 = date_create(date("d-m-Y"));
             $date2 = date_create($st['date_until']);
-            $diff = date_diff($date1, $date2);
+            $diff = date_diff( $date2,$date1);
             $diff = intval($diff->format("%R%a"));
-            if ($diff <= 8) :
+            if ($diff > 8) :
+
                 $expireSoon++;
 
             endif;

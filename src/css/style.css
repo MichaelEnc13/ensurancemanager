@@ -562,27 +562,42 @@ input:not(input[type="checkbox"]) {
     border: 1px solid #83879134;
 }
 
-.form__control {
+.main__form__control {
     display: grid;
-    grid-template-columns: 45% 45%;
+    grid-template-columns: 30% 30% 30%;
     gap: 15px;
     justify-content: center;
     padding-top: 5px;
 }
 
-.form__control input {
+.main__form__control input,
+.main__form__control button {
     height: 33px;
     border-radius: 7px;
 }
 
+.form__control--newClient {
+    display: grid;
+    grid-template-columns: 45% 45%;
+    justify-content: center;
+    gap: 20px;
+}
+
 .form_control--newVehicle {
-    grid-template-columns: auto auto auto auto;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: center;
+    gap: 15px;
 }
 
 .form_control--newVehicle input,
 .form__input--newClient,
 tbody td {
     text-transform: uppercase;
+}
+
+.table__btn {
+    border-radius: 7px;
 }
 
 .form__btn {
@@ -622,10 +637,15 @@ table tbody tr:hover {
 
 .client__header {
     display: grid;
-    grid-template-columns: 20% auto auto auto auto auto auto;
+    grid-template-columns: 25% auto auto auto auto auto auto;
     align-items: center;
     column-gap: 20px;
     padding-bottom: 5px;
+}
+
+.client__header h1 {
+    font-size: 20px;
+    text-transform: uppercase;
 }
 
 .client__header span {
@@ -752,8 +772,8 @@ table tbody tr:hover {
 .client__date__info {
     width: 100%;
     display: grid;
-    grid-template-columns: 12% 33% 12% 33%;
-    column-gap: 5px;
+    grid-template-columns: 50% 50%;
+    column-gap: 10px;
     align-items: center;
 }
 
@@ -790,8 +810,8 @@ table tbody tr:hover {
     justify-content: center;
 }
 
-.form__input--initial,
-.form__input--time {
+.form_control--initial,
+.form_control--time {
     display: none;
 }
 
@@ -815,10 +835,10 @@ input[type=checkbox] {
 }
 
 .client__info__group__container {
-    width: 80%;
+    width: 100%;
     margin: auto;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 15% 15% 15% 15% 15% auto;
 }
 
 
@@ -890,7 +910,9 @@ input[type=checkbox] {
 
 .config_container {
     height: 95vh;
+    overflow-y: scroll;
     color: var(--main-color);
+    padding-bottom: 30px;
 }
 
 .saving {
@@ -912,7 +934,7 @@ input[type=checkbox] {
     width: 100%;
     margin: auto;
     height: 90%;
-    column-gap: 20px;
+    gap: 20px;
     justify-content: center;
     padding-top: 15px;
 }
@@ -931,6 +953,39 @@ input[type=checkbox] {
     padding: 5px;
 }
 
+.addNewService {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+#saveUpdateService {
+    display: none;
+}
+
+.serviceAdded {
+    height: 45vh;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.services {
+    background-color: white;
+    padding: 15px;
+    margin: 7px;
+    border-radius: 7px;
+    box-shadow: var(--shadow);
+}
+
+.service_name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .widget {
     box-shadow: var(--shadow);
 }
@@ -946,6 +1001,10 @@ input[type=checkbox] {
     border-radius: 15px;
     padding: 15px;
     background-color: white;
+}
+
+.additional_service {
+    height: auto;
 }
 
 .second_config span {
@@ -1032,10 +1091,7 @@ input[type=checkbox] {
         font-size: 13px;
     }
     .client__header {
-        grid-template-columns: 20% auto auto auto auto auto auto
-    }
-    .client__header h1 {
-        font-size: 20px;
+        grid-template-columns: 25% auto auto auto auto auto auto
     }
     .client__header .btn {
         font-size: 14px;

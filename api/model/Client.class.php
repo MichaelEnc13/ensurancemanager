@@ -144,6 +144,64 @@ class Client
         return Db::queries("INSERT INTO policy (policynumber,type,value,totalAdditional,initial,payMethod,time,aditionalService,car_plate,date_from,date_until,cid,uid	
         ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", $values);
     }
+
+    public static function add_services($service_id, $policynumber)
+    {
+        $values = array(
+            $service_id, $policynumber, $_SESSION['user']['id']
+        );
+        return Db::queries("INSERT INTO aditionalservice (service_id,policynumber,uid	
+        ) VALUES(?,?,?  )", $values);
+    }
+    public static function delete_all_services_draft($policynumber_draft)
+    {
+        $values = array(
+            $policynumber_draft, $_SESSION['user']['id']
+        );
+        return Db::queries("DELETE FROM aditionalservice WHERE policynumber = ?   AND uid = ?", $values);
+    }
+    public static function delete_services_draft($policynumber_draft, $service_id)
+    {
+        $values = array(
+            $policynumber_draft, $service_id, $_SESSION['user']['id']
+        );
+        return Db::queries("DELETE FROM aditionalservice WHERE policynumber = ? AND service_id=? AND uid = ?", $values);
+    }
+
+    public static function update_services_draft($policynumber, $policynumber_draft)
+    {
+        $values = array(
+            $policynumber, $policynumber_draft, $_SESSION['user']['id']
+        );
+        return Db::queries("UPDATE aditionalservice SET policynumber =  ? WHERE policynumber = ?  AND uid = ?", $values);
+    }
+
+    public static function get_all_services($policynumber)
+    {
+        $values = array($policynumber, $_SESSION['user']['id']);
+        $query = "SELECT * FROM aditionalservice WHERE policynumber = ? AND uid = ?";
+
+
+        return Db::queries($query, $values);
+    }
+
+    public static function get_client_services($policynumber,$service_id)
+    {
+        $values = array($policynumber,$service_id, $_SESSION['user']['id']);
+        $query = "SELECT * FROM aditionalservice WHERE policynumber = ? AND service_id = ? AND uid = ?";
+
+
+        return Db::queries($query, $values);
+    }
+
+    public static function get_services_info($service_id)
+    {
+        $values = array($service_id, $_SESSION['user']['id']);
+        $query = "SELECT * FROM policy_additional_services WHERE id = ? AND uid = ?";
+
+
+        return Db::queries($query, $values);
+    }
     public static function edit_policy($policynumber, $type, $value, $totalAdditional, $initial, $payMethod, $time, $aditionalService, $date_from, $date_until, $car_plate, $cid)
     {
         $values = array(
@@ -201,11 +259,27 @@ class Client
         $query =  "UPDATE policy_dues SET paid = 1 WHERE policynumber = ? AND id = ? AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
+
+    public static function edit_policy_due($policynumber, $cid, $due, $validity, $amount)
+    {
+        $values = array(
+            $due, $validity, $amount, $cid, $policynumber, $_SESSION['user']['id']
+        );
+        return Db::queries("UPDATE policy_dues SET due = ?, validity = ? , amount = ? WHERE cid = ? AND  policynumber = ? AND uid = ?", $values);
+    }
     public static function deleteDue($policynumber, $cid)
     { //pagar una cuota
         $values = array($policynumber, $cid, $_SESSION['user']['id']);
         //el ID usado es el ID de la cuota.
         $query =  "DELETE FROM policy_dues WHERE policynumber = ?  AND cid = ? AND uid = ?";
+        return Db::queries($query, $values);
+    }
+    //se usa para eliminar las cuotas con un valor diferente al momento de editarlas
+    public static function deleteDue_diff_value($policynumber, $amount, $cid)
+    { //pagar una cuota
+        $values = array($policynumber, $amount, $cid, $_SESSION['user']['id']);
+        //el ID usado es el ID de la cuota.
+        $query =  "DELETE FROM policy_dues WHERE policynumber = ? AND amount != ?   AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
     public static function payOff($policynumber, $cid)
@@ -227,7 +301,7 @@ class Client
     public static function updatePolicyDate($policynumber, $cid, $time)
     { //se actuliza la fecha de la poliza a futuro
         //$now = date("d-m-Y");
-        $values = array( $time, $policynumber, $cid, $_SESSION['user']['id']);
+        $values = array($time, $policynumber, $cid, $_SESSION['user']['id']);
         $query =  "UPDATE policy SET date_until = ? WHERE  policynumber = ? AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
@@ -246,13 +320,13 @@ class Client
         return Db::queries("SELECT * FROM policy WHERE cid = ? AND car_plate = ? AND uid = ?", $values);
     }
 
-    public static function add_mantenaince_date($car_id,$cid,$date_from,$date_until,$oil_type,$oil_grade){
+    public static function add_mantenaince_date($car_id, $cid, $date_from, $date_until, $oil_type, $oil_grade)
+    {
         $values = array(
-            $date_from,$date_until,$oil_type,$oil_grade, $car_id,$cid,$_SESSION['user']['id']
+            $date_from, $date_until, $oil_type, $oil_grade, $car_id, $cid, $_SESSION['user']['id']
         );
         return Db::queries("INSERT INTO mantenaince (date_from,date_until,oil_type,oil_grade,car_id,cid,uid	
         ) VALUES(?,?,?,?,?,?,?)", $values);
-
     }
 
     public static function see_car_mantenaince($car_id, $cid)
@@ -263,10 +337,10 @@ class Client
         return Db::queries("SELECT * FROM mantenaince WHERE cid = ? AND car_id = ? AND uid = ?", $values);
     }
 
-    public static function edit_mantenaince_date($car_id, $cid,$date_from,$date_until,$oil_type,$oil_grade)
+    public static function edit_mantenaince_date($car_id, $cid, $date_from, $date_until, $oil_type, $oil_grade)
     {
         $values = array(
-            $date_from,$date_until,$oil_type,$oil_grade, $cid, $car_id, $_SESSION['user']['id']
+            $date_from, $date_until, $oil_type, $oil_grade, $cid, $car_id, $_SESSION['user']['id']
         );
         return Db::queries("UPDATE mantenaince SET date_from = ?, date_until = ? ,oil_type = ?,oil_grade=? WHERE cid = ? AND car_id = ? AND uid = ?", $values);
     }
@@ -279,15 +353,15 @@ class Client
         return Db::queries($query, $values);
     }
 
-    public static function settings($template_pos){
-        $values = array($template_pos,$_SESSION['user']['id'] );
+    public static function settings($template_pos)
+    {
+        $values = array($template_pos, $_SESSION['user']['id']);
         /* Elegir el tipo de consulta que se va a ultilizar para la configuración */
         $addConfig = "INSERT INTO settings (template_pos,uid	
         ) VALUES(?,?)";
         $updateConfig = "UPDATE settings SET template_pos = ? WHERE uid = ?";
-        $query = Client::see_settings("template_pos")['data']->fetch()? $updateConfig:$addConfig;
+        $query = Client::see_settings("template_pos")['data']->fetch() ? $updateConfig : $addConfig;
         return Db::queries($query, $values);
-
     }
 
     public static function see_settings($config)
@@ -297,7 +371,4 @@ class Client
         );
         return Db::queries("SELECT $config FROM settings WHERE uid = ?", $values);
     }
-
-
-
 }

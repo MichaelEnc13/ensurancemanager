@@ -287,6 +287,9 @@ $("body").on("click", function(e) {
 
             break;
         case "addPolicy":
+            totalAdditional = 0
+            additional = 0;
+
             viewLoader({
                 title: "new policy",
                 path: "clients/newPolicy.modal.php",
@@ -294,6 +297,7 @@ $("body").on("click", function(e) {
                 modal: true,
                 modalTitle: "Activar póliza de seguro",
                 callback: () => {
+
                     let cid = e.target.dataset.cid_plate
                     let car_id = e.target.dataset.car_id
                     $("#createPolicy").attr("data-cid_plate", cid);
@@ -305,6 +309,7 @@ $("body").on("click", function(e) {
 
 
                 }
+
             })
             break;
         case "editClient": //editar la informacion del cliente
@@ -331,6 +336,8 @@ $("body").on("click", function(e) {
             })
             break;
         case "editPolicy":
+            totalAdditional = 0
+            additional = 0;
             var policynumber = e.target.dataset.policynumber
             var car_plate = e.target.dataset.car_plate
             var paymethod = e.target.dataset.paymethod
@@ -362,7 +369,7 @@ $("body").on("click", function(e) {
                     var valueInInput = parseInt($("#additional-edit").val());
                     cal_amount(valueInInput);
                     $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
-                    get_additional_service(car_plate, cid)
+                    // get_additional_service(car_plate, cid)
                     init_date_picker()
                 }
 
@@ -400,7 +407,7 @@ $("body").on("click", function(e) {
                     var valueInInput = parseInt($("#additional-edit").val());
 
                     cal_amount(valueInInput);
-                    get_additional_service(car_plate, cid)
+                    //get_additional_service(car_plate, cid)
                     $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", true);
                     $("#renewPolicy").attr("data-policynumber", policynumber);
                     $("#renewPolicy").attr("data-cid", cid.trim());

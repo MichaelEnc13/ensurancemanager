@@ -60,7 +60,7 @@ if (isset($_POST['saveClientInfo'])) : //edita la info de un cliente@@@
             $_POST['email']
         );
 
-      
+
         if ($_POST['cid'] != $_POST['newcid']) :
             Client::editGlobalInfo($_POST['cid'], $_POST['newcid']);
         endif;
@@ -126,6 +126,21 @@ if (isset($_POST['registerNewCar'])) : //registra un nuevo vehiculo
 
 
 endif;
+$policyDraft;
+
+if (isset($_POST['addService']) && $_POST['addService'] === "true") : //añade un servicio adicional a una poliza en proceso de registro
+    if (session_status() != 2) session_start();
+    $policyDraft = isset($_SESSION['policy_draft']) ? $_SESSION['policy_draft'] : $_SESSION['policy_draft'] = date("hms") . $_SESSION['user']['id'];
+
+    Client::add_services($_POST['service_id'],  $_POST['policynumber'] != "" ? $_POST['policynumber'] : $policyDraft);
+
+elseif (isset($_POST['addService']) && $_POST['addService'] === "false") :
+    Client::delete_services_draft($_POST['policynumber'] != "" ? $_POST['policynumber'] : $_SESSION['policy_draft'], $_POST['service_id']);
+endif;
+
+
+
+
 
 if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     $policynumber = $_POST['policy_number'];
@@ -134,11 +149,12 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     $initial = isset($_POST['initial']) ? $_POST['initial'] : 0;
     $car_id = $_POST['car_id'];
     $futureDate = $_POST['pay_method'] == "0" ? CalDate::some_months(12) : CalDate::some_months(1);
+    $totalAditional =  $_POST['totalAdditional'];
     $done = Client::new_policy(
         $policynumber,
         $_POST['type'],
         $value,
-        $_POST['totalAdditional'],
+        $totalAditional,
         $initial,
         $_POST['pay_method'],
         isset($_POST['time']) ? $_POST['time'] : 0,
@@ -152,6 +168,9 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     );
 
     if ($done['status']) :
+        Client::update_services_draft($policynumber, $_SESSION['policy_draft']);
+
+        unset($_SESSION['policy_draft']);
         $ensured = Client::change_policy_status($car_id, $cid);
 
         if ($ensured['status']) :
@@ -161,7 +180,7 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
             if ($_POST['pay_method'] == "1") :
                 $time = $_POST['time'];
                 $month = 1;
-                $amount = intval(($value - $initial) / $time);
+                $amount = floatval(($value - $initial) + $totalAditional / $time);
                 for ($i = 0; $i < $time; $i++) :
                     Client::add_policy_due(
                         $policynumber,
@@ -184,6 +203,23 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     else :
         echo "DP" . $done['error'][2];
     endif;
+
+/*   $tas = $_POST['totalAdditionalService'];
+
+    $i = 1;
+    for ($i; $i <= $tas; $i++) :
+        $as = $_POST['aditionalService_' . $i];
+        $asv = $_POST['aditionalService_value_' . $i];
+        if ($as != "") :
+
+            echo $as;
+            echo $asv;
+        endif;
+    endfor; */
+
+
+
+
 endif;
 
 if (isset($_POST['paydue'])) : //pagar cuota
@@ -198,7 +234,9 @@ if (isset($_POST['paydue'])) : //pagar cuota
 
         $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
-
+        if (!Client::dueInfo($_POST['policynumber'], $_POST['cid'])['data']->fetch()) :
+            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
+        endif;
     else :
 
         echo $done['error'][1];
@@ -288,19 +326,21 @@ endif;
 
 
 if (isset($_POST['savePolicy'])) : //edita una poliza
-
+    $value = $_POST['value'];
+    $initial =  isset($_POST['initial']) ? $_POST['initial'] : 0;
+    $totalAditional = $_POST['totalAdditional'];
+    $aditional = $_POST['aditional'];
     $cid = $_POST['cid'];
     $policynumber =  $_POST['policy_number'];
     $done = Client::edit_policy(
         $policynumber,
         $_POST['type'],
-        $_POST['value'],
-        $_POST['totalAdditional'],
-        isset($_POST['initial']) ? $_POST['initial'] : 0,
-
+        $value,
+        $totalAditional,
+        $initial,
         $_POST['pay_method'],
         isset($_POST['time']) ? $_POST['time'] : 0,
-        $_POST['aditional'],
+        $aditional,
         $_POST['date_from'],
         $_POST['date_until'],
         $_POST['car_plate'],
@@ -310,12 +350,56 @@ if (isset($_POST['savePolicy'])) : //edita una poliza
     );
 
     $existDue = Client::dueInfo($policynumber, $cid)['data']->fetch();
-    if ($_POST['pay_method'] == "1" &&  $existDue == false) :
+
+    if ($_POST['pay_method'] == "1") :
+
         $time = $_POST['time'];
         $month = 1;
-        $amount = intval($_POST['value'] / $time);
+        $amount = floatval((($value - $initial) + $totalAditional) / $time);
+        //verificar cuantas filas hay para determinar cuantas se van a agregar
+        $cantDues =  Client::dueInfo($policynumber, $cid)['data']->rowCount(); //cantidad de cuotas;
+        $cantDues = $cantDues != false ? $cantDues : 0;
+        $newDues;
+
+        if ($cantDues < $time) : //verifica que las cuotas sean menores al nuevo tiempo de pago
+
+            $newDues =   $time - $cantDues;
+            for ($i = 0; $i < $newDues; $i++) :
+                Client::add_policy_due(
+                    $policynumber,
+                    $cid,
+                    $month,
+                    CalDate::some_months($month),
+                    $amount
+
+                );
+                $month++;
+            endfor;
+        elseif ($cantDues > $time) :  //verfica que sean mayores
+
+            $newDues =   $cantDues - $time;
+            for ($i = 0; $i < $time; $i++) :
+                Client::add_policy_due(
+                    $policynumber,
+                    $cid,
+                    $month,
+                    CalDate::some_months($month),
+                    $amount
+
+                );
+
+                $month++;
+            endfor;
+            echo Client::deleteDue_diff_value($policynumber, $amount, $cid)['error'][2];
+
+        endif;
+
+
+
+
         for ($i = 0; $i < $time; $i++) :
-            Client::add_policy_due(
+
+            Client::edit_policy_due(
                 $policynumber,
                 $cid,
                 $month,
@@ -325,6 +409,10 @@ if (isset($_POST['savePolicy'])) : //edita una poliza
             );
             $month++;
         endfor;
+
+
+
+
     elseif ($_POST['pay_method'] == 0) :
         Client::deleteDue($policynumber, $cid);
     endif;
@@ -344,7 +432,7 @@ if (isset($_POST['deletePolicy'])) : //elimina la poliza
 
 
     );
-    
+    Client::delete_all_services_draft($_POST['policynumber']);
     Client::deletePolicyDue($_POST['policynumber'], $cid);
     Client::update_car_policy_status($_POST['car_id'], $cid);
     echo $done['status'] ? $done['status'] : "DP" . $done['error'][1];

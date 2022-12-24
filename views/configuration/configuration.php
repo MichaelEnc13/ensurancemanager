@@ -7,16 +7,15 @@ $posX = $positions['posX'];
 $posY = $positions['posY'];
 
 ?>
- <style>
-
-    .toggle{
+<style>
+    .toggle {
         display: none;
     }
 
-    .refill{
+    .refill {
         display: block;
     }
-</style>  
+</style>
 <div class="config_container">
     <div class="config_header">
         <h2>Configuración </h2>
@@ -31,7 +30,7 @@ $posY = $positions['posY'];
             <div class="main_config ">
                 <div class="user_config widget darked">
                     <div class="user_config_personal">
-                        <h3>Configuración de la cuenta</h3>
+                        <h3><i class="fa-regular fa-user"></i> Configuración de la cuenta</h3>
                         <label>Nombre</label>
                         <input autocomplete="off" type="text" value="<?php echo $_SESSION['user']['fname'] ?>" name="fname" class="input">
                         <label>Apellido</label>
@@ -45,7 +44,7 @@ $posY = $positions['posY'];
 
                     </div><!-- user_config_personal -->
                     <div class="user_config_pass">
-                        <h3>Cambiar contraseña</h3>
+                        <h3><i class="fa-solid fa-key"></i> Cambiar contraseña</h3>
                         <label for="">Nueva contraseña</label>
                         <input type="password" name="change_pass" class="input" placeholder="********">
                         <label for="">Repetir contraseña</label>
@@ -55,7 +54,7 @@ $posY = $positions['posY'];
                     </div><!-- user_config_pass -->
                 </div>
                 <div class="system_config widget darked">
-                    <h3>Configuración del sistema</h3>
+                    <h3><i class="fa-solid fa-sitemap"></i> Configuración del sistema</h3>
                     <p>Modo oscuro</p>
                     <div class="system_config_darkmode">
                         <i class="fa-regular fa-sun"></i>
@@ -81,7 +80,7 @@ $posY = $positions['posY'];
                     <span><?php echo $_SESSION['version'] ?></span>
 
                 </div>
-            </div>
+            </div><!-- Configuración del usuario -->
 
             <div class="second_config widget darked">
                 <h3>Facturación</h3>
@@ -102,9 +101,38 @@ $posY = $positions['posY'];
                 <button class="btn btn--blue" id="payPal"><i class="fa-brands fa-paypal"></i> PayPal</button>
                 <button class="btn btn--blue" id="azul">Pagos AZUL</button>
                 <button class="btn btn--blue" id="transfer"><i class="fa-solid fa-money-bill-transfer"></i> Transferencia</button>
-            </div>
-
-        </div>
+            </div><!-- Opciones de pago -->
 
     </form>
+    <div class="second_config additional_service widget darked">
+        <h3>Servicios adicionales</h3>
+
+
+        <form onsubmit='return false' class='form addtionalServices'>
+            <div class="addNewService">
+                <div class="form_control">
+                    <label for="">Nombre del servicio</label>
+                    <input type="text" name="service_name" placeholder="....."  >
+                </div>
+
+                <div class="form_control">
+                    <label for="">Costo del servicio</label>
+                    <input type="text" name="service_price" placeholder="....."  >
+                </div>
+                <button class="btn btn--blue" id="addNewService">Agregar servicio</button>
+                <button class="btn btn--green" id="saveUpdateService">Guardar</button>
+            </div><!-- addNewService -->
+        </form>
+
+
+        <h4>Servicios agregados</h4>
+        <div class="serviceAdded">
+            <?php include "additional_services.php" ?>   
+        </div>
+
+    </div><!-- Servicios adicionales -->
+
+</div>
+
+
 </div>

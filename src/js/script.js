@@ -11,7 +11,16 @@
 */
 
 
+$(document).on("mouseenter", ".client__header button", function(e) {
 
+
+    tippy(e.target, {
+        content: e.target.dataset.action,
+        placement: "bottom",
+        theme: 'material',
+    });
+
+});
 
 let init_table = () => {
     $("#table").DataTable({
@@ -158,7 +167,7 @@ $(document).on("click", "#login", function(e) {
 } */
 var json = {};
 
-$(document).on("click", "input.aditional_service", function(e) { //obtener la información del checkbox
+/* $(document).on("click", "input.aditional_service", function(e) { //obtener la información del checkbox
 
     let val = $(e.target).val();
 
@@ -172,10 +181,13 @@ $(document).on("click", "input.aditional_service", function(e) { //obtener la in
         json[index] = "";
 
 
+
     }
+
+
     // console.log(json); // ver INFO json
 
-});
+}); */
 
 /* Calcula la fecha futura de la poliza */
 function cal_date(days) {
@@ -264,8 +276,8 @@ function cal_amount(additional) { //se realizan los calculos las polizas
     initial = parseInt(initial);
     method = parseInt(method);
     time = parseInt(time);
-    var added = additional ? additional : 0;
-    //console.log(added);
+    var added = check_additional_value();
+    // console.log(additional);
     if (!isNaN(value) && !isNaN(method) && !isNaN(time)) {
         var total = 0
         var diff = 0
@@ -275,15 +287,16 @@ function cal_amount(additional) { //se realizan los calculos las polizas
             case 1: //inicial 
                 total = initial
                 diff = parseInt((value - initial) + added);
-                $("input.form__input--initial,select.form__input--time").css("display", "block");
-                $(" input.form__input--initial, select.form__input--time").attr("disabled", false);
+                $(".form_control--initial,.form_control--time").css("display", "block");
+                $(" .form_control--initial input.form__input--initial, .form_control--time select.form__input--time").attr("disabled", false);
                 $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
                 if (time != 0) { next = parseFloat(diff / time); } else { next = parseFloat(diff) }
                 cal_date(30);
+                console.log("object");
                 break;
             case 0: //total
-                $(" input.form__input--initial, select.form__input--time").css("display", "none");
-                $(" input.form__input--initial, select.form__input--time").attr("disabled", true);
+                $("  .form_control--initial,.form_control--time").css("display", "none");
+                $(" .form_control--initial input.form__input--initial, .form_control--time select.form__input--time").attr("disabled", true);
                 $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
                 initial = 0;
                 total = parseInt((value - initial) + added);
@@ -291,8 +304,8 @@ function cal_amount(additional) { //se realizan los calculos las polizas
                 cal_date(360);
                 break;
             case 2:
-                $(" input.form__input--initial,select.form__input--time").css("display", "none");
-                $(" input.form__input--initial, select.form__input--time").attr("disabled", true);
+                $("  .form_control--initial,.form_control--time").css("display", "none");
+                $(" .form_control--initial input.form__input--initial, .form_control--time select.form__input--time").attr("disabled", true);
                 $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", true);
                 //$(".form__control__checkbox__control input[type=checkbox]").prop("checked", false);
 
@@ -302,7 +315,7 @@ function cal_amount(additional) { //se realizan los calculos las polizas
         }
 
         var formated_value = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(value)
-        var formated_added = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(added)
+        var formated_added = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(added) //adicional
         var formated_total = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(total)
         var formated_diff = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(diff)
         var formated_next = new Intl.NumberFormat('do-DO', { style: "currency", currency: "DOP" }).format(next)
@@ -318,6 +331,19 @@ function cal_amount(additional) { //se realizan los calculos las polizas
 
 }
 
+/* Se usa para calcular los valores adicionales seleccionados */
+
+function check_additional_value() {
+    var value = 0;
+    $(".form__control__checkbox__control input[type='checkbox']").each(function(index, element) {
+        if (element.checked) {
+            value += parseInt(element.dataset.value);
+        }
+
+
+    });
+    return value;
+}
 
 function verifyFormFields(form) {
     var count = 0;
@@ -348,7 +374,7 @@ function verifyFormFields(form) {
 var totalAdditional = 0;
 var additional = 0;
 $(document).on("click", ".form__control__checkbox__control input[type=checkbox]", function(e) {
-    var valueInData = e.target.dataset.value;
+    var valueInData = e.target.dataset.value; //obtiene el precio
     var valueInInput = parseInt($("#additional-edit").val());
     additional = parseInt(valueInData ? valueInData : valueInInput)
     if (e.target.checked == true) {
@@ -357,6 +383,7 @@ $(document).on("click", ".form__control__checkbox__control input[type=checkbox]"
     } else {
         totalAdditional = totalAdditional - additional
     }
+    //console.log(totalAdditional);
     cal_amount(totalAdditional)
 });
 
@@ -367,22 +394,63 @@ $(document).on("keyup", ".form__input", function(e) {
     cal_amount(added)
 
 });
-$(document).on("change", ".form__control__selects select", function(e) {
-    /* Este se usa en caso de que la pagina sea recagada y necesite el valor adicional para editar o renovar */
-    var valueInInput = parseInt($("#additional-edit").val());
-    var added = parseInt(totalAdditional != 0 ? totalAdditional : valueInInput)
-    cal_amount(added);
+$(document).on("change", "select", function(e) {
+        /* Este se usa en caso de que la pagina sea recagada y necesite el valor adicional para editar o renovar */
+        var valueInInput = parseInt($("#additional-edit").val());
+        var added = parseInt(totalAdditional != 0 ? totalAdditional : valueInInput)
+        cal_amount(added);
 
-})
+    })
+    // se usar para asegurarse de que no se activen los checkbox sin numero de poliza
+$(document).on("keyup", "input[name=policy_number]", function(e) {
+    if (e.target.value == "") {
+        $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", true);
+    } else {
+        $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
+    }
 
+
+
+});
+
+$(document).on("change", ".form__control__checkbox__control input[type=checkbox]", function(e) {
+
+    var policynumber = $("input[name=policy_number]").val();
+    var name = e.target.value;
+    var value = e.target.dataset.value;
+    var service_id = e.target.dataset.index;
+    var data = {
+            policynumber,
+            name,
+            value,
+            service_id,
+            addService: e.target.checked
+        }
+        //console.log(data);
+
+    $.ajax({
+        type: "POST",
+        url: "api/controller/client.controller.php",
+        data,
+        success: function(res) {
+            // console.log(res);
+        }
+    });
+});
+
+$(document).on("keypress", "form.addtionalServices", function(e) {
+
+    if (e.keyCode == 13) { e.preventDefault(); }
+
+});
 $(document).on("click", function(e) {
 
 
     let cid;
     let car_plate;
 
-
-    switch (e.target.id) {
+    let target = e.target.id ? e.target.id : e.target.dataset.id;
+    switch (target) {
         case "registerNewClient": //registrar nuevo cliente y su vehiculo
             var form = document.querySelector("body .form_new_register");
             var data = new FormData(form);
@@ -532,6 +600,7 @@ $(document).on("click", function(e) {
 
             break;
         case "createPolicy": //registrar nueva poliza
+
             var form = document.querySelector("body form.form_new_policy");
             var data = new FormData(form);
             cid = e.target.dataset.cid_plate
@@ -548,11 +617,11 @@ $(document).on("click", function(e) {
                 return false;
             }
             // var done = verifyFormFields("body form.form_new_policy input")
-            var aditional = JSON.stringify(json, true)
-                //console.log(aditional);
+            // var aditional = JSON.stringify(json, true)
+            //console.log(aditional);
             data.append("car_id", car_id)
             data.append("cid", cid)
-            data.append("aditional", aditional)
+            data.append("aditional", "")
 
 
 
@@ -628,6 +697,7 @@ $(document).on("click", function(e) {
                         data,
 
                         success: function(res) {
+                            console.log(res);
                             switch (res) {
                                 case "1":
                                     $("#modal_loader").css("display", "none");
@@ -705,16 +775,17 @@ $(document).on("click", function(e) {
             car_plate = e.target.dataset.car_plate
 
 
-            var aditional = JSON.stringify(json, true)
-                //console.log(aditional);
+            // var aditional = JSON.stringify(json, true)
+            //console.log(aditional);
             data.append("car_plate", car_plate)
             data.append("cid", cid)
-            data.append("aditional", aditional)
+            data.append("aditional", "")
 
 
-            data.set("totalAdditional", totalAdditional > 0 ? totalAdditional : 0) //costo de los servicios adicionales
+            data.set("totalAdditional", check_additional_value()) //costo de los servicios adicionales
             data.append("savePolicy", true)
             var policy = data.get("policy_number");
+            // console.log(totalAdditional);
 
             $.ajax({
                 type: "POST",
@@ -1317,7 +1388,8 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
             break;
             /* Configuracion del sistema */
         case "save_config":
-            var form = document.querySelector("body form.save_config");
+
+            var form = document.querySelector("body form.save_config_");
             var data = new FormData(form);
             var id = e.target.dataset.id
             data.append("id", id)
@@ -1368,6 +1440,161 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
 
 
             break;
+
+        case "addNewService":
+            var form = document.querySelector("body form.addtionalServices");
+            var data = new FormData(form);
+            var id = e.target.dataset.id
+            data.append("addNewService", true)
+
+            if ($("input[name=service_name").val() == "" ||
+                $("input[name=service_price").val() == "") {
+                Swal.fire({
+                    title: 'Ambos campos son requeridos',
+                    text: '',
+                    icon: 'info'
+                })
+                return false;
+
+            }
+
+            //  $(".saving").css("display", "block");
+
+            $.ajax({
+                type: "POST",
+                url: "api/controller/user.controller.php",
+                data,
+                contentType: false,
+                processData: false,
+                success: function(res) {
+
+                    //   $(".saving").css("display", "none");
+                    //console.log(res);
+                    $("input[name=service_name").val("");
+                    $("input[name=service_price").val("");
+
+                    switch (res) {
+                        case "1":
+                            viewLoader({
+                                viewContainer: ".serviceAdded",
+                                path: "configuration/additional_services.php"
+
+                            })
+                            Swal.fire({
+                                title: 'Nuevo servicio agregado',
+                                text: '',
+                                icon: 'success'
+                            })
+                            break;
+                    }
+
+                }
+            });
+            break;
+
+        case "deleteService":
+            var sid = e.target.dataset.sid; //id del servicio
+            var data = {
+                sid,
+                deleteService: true
+            }
+            $.ajax({
+                type: "POST",
+                url: "api/controller/user.controller.php",
+                data,
+
+                success: function(res) {
+
+                    //   $(".saving").css("display", "none");
+                    console.log(res);
+
+
+                    switch (res) {
+                        case "1":
+                            viewLoader({
+                                viewContainer: ".serviceAdded",
+                                path: "configuration/additional_services.php"
+
+                            })
+                            Swal.fire({
+                                title: 'Servicio eliminado',
+                                text: '',
+                                icon: 'success'
+                            })
+                            break;
+                    }
+
+                }
+            });
+            break;
+
+
+        case "updateService": //cargar los datos del servicio al formulario
+
+            var sid = e.target.dataset.sid; //id del servicio
+            var name = e.target.dataset.name; //id del servicio
+            var value = e.target.dataset.value; //id del servicio
+            $("input[name=service_name").val(name);
+            $("input[name=service_price").val(value);
+            $("#saveUpdateService").attr("data-sid", sid);
+            $("#saveUpdateService").css("display", "block");
+            $("#addNewService").css("display", "none");
+            break;
+
+        case "saveUpdateService": //Actualiza los servicios
+
+            var form = document.querySelector("body form.addtionalServices");
+            var data = new FormData(form);
+
+            var sid = e.target.dataset.sid; //id del servicio
+            data.append("sid", sid)
+            data.append("saveUpdateService", true)
+
+            if ($("input[name=service_name").val() == "" ||
+                $("input[name=service_price").val() == "") {
+                Swal.fire({
+                    title: 'Ambos campos son requeridos',
+                    text: '',
+                    icon: 'info'
+                })
+                return false;
+
+            }
+            $.ajax({
+                type: "POST",
+                url: "api/controller/user.controller.php",
+                data,
+                processData: false,
+                contentType: false,
+
+                success: function(res) {
+
+
+                    switch (res) {
+                        case "1":
+                            viewLoader({
+                                viewContainer: ".serviceAdded",
+                                path: "configuration/additional_services.php",
+                                callback: () => {
+                                    $("#saveUpdateService").css("display", "none");
+                                    $("#addNewService").css("display", "block");
+                                    $("input[name=service_name").val("");
+                                    $("input[name=service_price").val("");
+                                }
+                            })
+                            Swal.fire({
+                                title: 'Servicio actualizado',
+                                text: '',
+                                icon: 'success'
+                            })
+                            break;
+                    }
+
+                }
+            });
+            break;
+
+
             /*Salir del sistema */
 
         case "logout":

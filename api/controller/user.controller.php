@@ -38,3 +38,21 @@ if (isset($_POST['save_config'])) :
         echo $done['error'][1];
     endif;
 endif;
+
+
+if (isset($_POST['addNewService'])) :
+    $done = User::add_addtional_services($_POST['service_name'], $_POST['service_price']);
+    if($done['status']) echo $done['status'];
+    if(!$done['status']) echo $done['error'][2];
+ 
+endif;
+if (isset($_POST['saveUpdateService'])) :
+    $done = User::update_addtional_services($_POST['service_name'], $_POST['service_price'],$_POST['sid']);
+    if($done['status']) echo $done['status'];
+ 
+endif;
+if (isset($_POST['deleteService'])) :
+    $done = User::delete_addtional_services($_POST['sid']);
+    if($done['status']) echo $done['status'];
+ 
+endif;
