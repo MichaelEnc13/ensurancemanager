@@ -41,7 +41,7 @@ $clients = Client::see_all_client()['data'];
                 <td><?php echo $client['email'] ?></td>
                 <td><?php echo $client['date'] ?></td>
                 <td><?php echo $cant_car ?></td>
-                <td><button id="view-client-info" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td>
+                <td><button id="view-client-info" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

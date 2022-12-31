@@ -208,6 +208,24 @@ input:not(input[type="checkbox"]) {
     cursor: pointer;
     padding: 10px;
     font-size: 20px;
+    position: relative;
+}
+
+.clikable {
+    position: relative;
+}
+
+.btn::before,
+.widgets__item::before,
+.toggle::before,
+.clikable::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(252, 249, 249, 0);
 }
 
 .btn--blue {
@@ -362,6 +380,7 @@ input:not(input[type="checkbox"]) {
 
 .toggle {
     cursor: pointer;
+    position: relative;
 }
 
 .sidebar {
@@ -373,7 +392,7 @@ input:not(input[type="checkbox"]) {
     font-size: 20px;
     font-weight: 500;
     box-shadow: var(--shadow);
-    transition: .5S;
+    transition: 0.5s;
     z-index: 5;
 }
 
@@ -412,7 +431,7 @@ input:not(input[type="checkbox"]) {
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(255, 255, 255, 0.233);
+    /*   background-color: rgba(255, 255, 255, 0.233); */
     backdrop-filter: blur(5px);
     z-index: 10;
     display: flex;
@@ -432,7 +451,7 @@ input:not(input[type="checkbox"]) {
     border-radius: 15px;
     box-shadow: var(--shadow);
     display: none;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .modal_loader_s {
@@ -500,16 +519,30 @@ input:not(input[type="checkbox"]) {
 }
 
 .widgets__item {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    justify-content: center;
+    align-items: center;
     background-color: white;
     padding: 10px;
     border-radius: 10px;
     border: 1px solid #83879134;
-    transition: .5s;
+    transition: 0.5s;
     box-shadow: var(--shadow);
+    position: relative;
     /*     box-shadow: -5px -5px 5px #ffffff91, 5px 5px 5px #57575780, -8px -8px 5px #ffffff91 inset, 8px 8px 5px #57575780 inset;
  */
+}
+
+.widget__icon {
+    font-size: 30px;
+    color: #5f88fb48;
+}
+
+.widget__info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
 }
 
 .widgets__item__title {
@@ -823,7 +856,7 @@ table tbody tr:hover {
     font-size: 12px;
 }
 
-input[type=checkbox] {
+input[type="checkbox"] {
     height: 20px;
     width: 20px;
 }
@@ -965,14 +998,6 @@ input[type=checkbox] {
     display: none;
 }
 
-.serviceAdded {
-    height: 45vh;
-    overflow-y: scroll;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-
 .services {
     background-color: white;
     padding: 15px;
@@ -1066,17 +1091,33 @@ input[type=checkbox] {
     top: -10%;
     left: 0%;
     cursor: pointer;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .dark_toggle_switch_on {
     left: 50%;
 }
 
-@media only screen and (max-width:1367px) {
+.widgets__item {
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+
+.widget__icon {
+    font-size: 40px;
+}
+
+@media only screen and (max-width: 1367px) {
     .widgets {
         width: 90%;
         margin: auto;
+    }
+    .widgets__item {
+        display: grid;
+        grid-template-columns: 20% 80%;
+    }
+    .widget__icon {
+        font-size: 30px;
     }
     .widgets__item__title {
         font-size: 14px;
@@ -1091,7 +1132,7 @@ input[type=checkbox] {
         font-size: 13px;
     }
     .client__header {
-        grid-template-columns: 25% auto auto auto auto auto auto
+        grid-template-columns: 25% auto auto auto auto auto auto;
     }
     .client__header .btn {
         font-size: 14px;
@@ -1128,9 +1169,9 @@ input[type=checkbox] {
     }
 }
 
-@media only screen and (max-width:1115px) {
+@media only screen and (max-width: 1115px) {
     .client__header {
-        grid-template-columns: 20% auto auto auto auto auto auto
+        grid-template-columns: 20% auto auto auto auto auto auto;
     }
     .btn {
         padding: 7px;
@@ -1142,20 +1183,20 @@ input[type=checkbox] {
     }
 }
 
-@media only screen and (max-width:1031px) {
+@media only screen and (max-width: 1031px) {
     .client__info__actions {
         display: flex;
         flex-direction: column;
     }
 }
 
-@media only screen and (max-width:960px) {
+@media only screen and (max-width: 960px) {
     .client__info__container {
         grid-template-columns: 70% 30%;
         gap: 1%;
     }
     .client__header {
-        grid-template-columns: 30% auto auto auto
+        grid-template-columns: 30% auto auto auto;
     }
 }
 

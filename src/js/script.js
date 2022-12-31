@@ -11,7 +11,7 @@
 */
 
 
-$(document).on("mouseenter", ".client__header button", function(e) {
+$(document).on("mouseenter", ".client__header button,#backDashboard,.toggle,.notification,.nav__loguot span", function(e) {
 
 
     tippy(e.target, {
@@ -54,62 +54,102 @@ $(document).on("click", "#register", function(e) {
     var form = document.querySelector("body .form#registerUser");
     var data = new FormData(form);
     var company_code = $("#select_ensurance").val();
+    if (!company_code) {
+        Swal.fire({
+            title: 'No ha elegido una empresa aseguradora',
+            text: 'Por favor elija a que empresa de seguros representa.',
+            icon: 'info',
+
+        })
+        return false;
+    }
     data.append("company", company[company_code].company)
     data.append("company_logo", company[company_code].url)
     data.append("register", true)
+    var empty = 0;
+    $("#registerUser input").each(function(index, element) {
 
-    $.ajax({
-        type: "POST",
-        url: "api/controller/signup.controller.php",
-        data,
-        processData: false,
-        contentType: false,
-        success: function(res) {
-            console.log(res);
-            switch (res) {
-                case "1" || true:
-                    $("#modal_loader").css("display", "none");
-                    $(".overlay").css("display", "none");
-                    Swal.fire({
-                        title: 'Tu registro ha sido exitoso',
-                        text: 'Se ha enviado un mensaje de confirmacion a tu dirección de correo',
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Aceptar'
-                    }).then((result) => {
-
-                        if (result.isConfirmed) {
-                            //cargar el loger
-                            location.href = baseUri + "signin"
-
-                        }
-                    })
-
-
-
-
-                    break;
-                case "A200":
-                    Swal.fire({
-                        title: 'No se ha registrado tu cuenta',
-                        text: 'Al parecer los datos ya están registrados.',
-                        icon: 'info',
-                        footer: '<a href="">Crees que es un error?</a>'
-                    })
-                    break;
-                case "A201":
-                    Swal.fire({
-                        title: 'Contraseña incorrecta',
-                        text: 'Por favor verifica los campos.',
-                        icon: 'error'
-
-                    })
-                    break;
-            }
-
+        if (element.type == "text" && element.value == "") {
+            element.style.border = "1px solid red";
+            empty++;
+            return false
+        } else {
+            element.style.border = "1px solid #83879157";
         }
+
+        if (element.type == "checkbox" && element.checked == false) {
+            Swal.fire({
+                title: 'Revise la información',
+                text: 'Debe confirmar que toda su información es correcta y que ha leido los terminos de uso',
+                icon: 'info',
+
+            })
+            empty++;
+            return false;
+        }
+    });
+
+
+
+    grecaptcha.ready(function() {
+
+        grecaptcha.execute('6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK', { action: 'submit' }).then(function(token) {
+            if (empty == 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "api/controller/signup.controller.php",
+                    data,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        console.log(res);
+                        switch (res) {
+                            case "1" || true:
+                                $("#modal_loader").css("display", "none");
+                                $(".overlay").css("display", "none");
+                                Swal.fire({
+                                    title: 'Tu registro ha sido exitoso',
+                                    text: 'Se ha enviado un mensaje de confirmacion a tu dirección de correo',
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Aceptar'
+                                }).then((result) => {
+
+                                    if (result.isConfirmed) {
+                                        //cargar el loger
+                                        location.href = baseUri + "signin"
+
+                                    }
+                                })
+
+
+
+
+                                break;
+                            case "A200":
+                                Swal.fire({
+                                    title: 'No se ha registrado tu cuenta',
+                                    text: 'Al parecer los datos ya están registrados.',
+                                    icon: 'info',
+                                    footer: '<a href="">Crees que es un error?</a>'
+                                })
+                                break;
+                            case "A201":
+                                Swal.fire({
+                                    title: 'Contraseña incorrecta',
+                                    text: 'Por favor verifica los campos.',
+                                    icon: 'error'
+
+                                })
+                                break;
+                        }
+
+                    }
+                });
+            }
+        });
     });
 
 
@@ -135,6 +175,9 @@ $(document).on("click", "#login", function(e) {
                     $(".overlay").css("display", "none");
 
                     location.href = baseUri + "dashboard"
+
+
+
 
                     break;
                 case "A201":
@@ -443,6 +486,8 @@ $(document).on("keypress", "form.addtionalServices", function(e) {
     if (e.keyCode == 13) { e.preventDefault(); }
 
 });
+
+
 $(document).on("click", function(e) {
 
 
@@ -465,7 +510,7 @@ $(document).on("click", function(e) {
                     processData: false,
                     contentType: false,
                     success: function(res) {
-                        console.log(res);
+                        //     console.log(res);
                         switch (res) {
                             case "1" || true:
                                 $("#modal_loader").css("display", "none");
@@ -794,7 +839,9 @@ $(document).on("click", function(e) {
                 processData: false,
                 contentType: false,
                 success: function(res) {
-                    console.log(res);
+                    mustSave = false;
+
+                    //console.log(res);
                     switch (res) {
                         case "1" || true:
                             $("#modal_loader").css("display", "none");
@@ -1389,7 +1436,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
             /* Configuracion del sistema */
         case "save_config":
 
-            var form = document.querySelector("body form.save_config_");
+            var form = document.querySelector("body form.save_config");
             var data = new FormData(form);
             var id = e.target.dataset.id
             data.append("id", id)
@@ -1477,8 +1524,10 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                         case "1":
                             viewLoader({
                                 viewContainer: ".serviceAdded",
-                                path: "configuration/additional_services.php"
-
+                                path: "configuration/additional_services.php",
+                                callback: () => {
+                                    init_table()
+                                }
                             })
                             Swal.fire({
                                 title: 'Nuevo servicio agregado',
@@ -1506,14 +1555,17 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 success: function(res) {
 
                     //   $(".saving").css("display", "none");
-                    console.log(res);
+                    // console.log(res);
 
 
                     switch (res) {
                         case "1":
                             viewLoader({
                                 viewContainer: ".serviceAdded",
-                                path: "configuration/additional_services.php"
+                                path: "configuration/additional_services.php",
+                                callback: () => {
+                                    init_table()
+                                }
 
                             })
                             Swal.fire({
@@ -1580,6 +1632,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                                     $("#addNewService").css("display", "block");
                                     $("input[name=service_name").val("");
                                     $("input[name=service_price").val("");
+                                    init_table()
                                 }
                             })
                             Swal.fire({

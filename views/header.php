@@ -24,7 +24,7 @@ $_SESSION['version'] = $v;
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/material.css" />
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-
+ 
     <script src="https://unpkg.com/tippy.js@6"></script>
 
     <title>EnsuranManage</title>

@@ -1,3 +1,5 @@
+<script src="https://www.google.com/recaptcha/api.js?render=6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK"></script>
+
  <div class="signup__container">
 
      <div class="signup">
@@ -5,7 +7,7 @@
              <div class="text">
                  <h1>Registrate</h1>
                  <p>Y empieza a administrar de forma sencilla los seguros de tus clientes con</p>
-                 <h3>EnsuranceManager   </h3>
+                 <h3>EnsuranceManager </h3>
              </div>
          </div>
          <div class="form__container">
@@ -104,7 +106,7 @@
 
 
              </form>
-             <button id="loadLogin" class="btn"> Ya tienes una cuenta?, inicia sesión</button>
+             <button id="loadLogin" class="btn g-recaptcha" data-sitekey="6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK" data-callback='onSubmit' data-action='submit'> Ya tienes una cuenta?, inicia sesión</button>
 
          </div>
 

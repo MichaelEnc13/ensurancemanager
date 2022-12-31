@@ -42,7 +42,7 @@ function viewLoader(viewData) {
     });
 
     //var query = params == "" && modal == true ? location.search : params;
-    history.replaceState(null, "", title)
+    history.pushState(null, "", title)
 
 
 }
@@ -124,7 +124,29 @@ $(document).on("change", "#select-client-vehicle", function(e) { //select placas
 
 });
 
+var mustSave = false;
+/* Detectar cambios en el formulario para evitar cerrar sin guardar */
+$(document).on("change", ".form_new_policy,.form_new_register", function(e) {
+    mustSave = true
+        //console.log(e);
+});
 
+window.addEventListener("beforeunload", function(e) {
+    if (mustSave) {
+        var confirmationMessage = "\o/";
+
+        e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+        Swal.fire({
+            title: 'Hay cambios sin guardar',
+            text: '',
+            icon: 'info',
+
+
+        })
+        return confirmationMessage; // Gecko, WebKit, Chrome <34
+
+    }
+});
 
 $("body").on("click", function(e) {
 
@@ -218,10 +240,23 @@ $("body").on("click", function(e) {
                 }
             })
             break;
+        case "overlay":
         case "modal__header__close": //cerrar las modales
-            $("#modal__header__title").text("");
-            $("#modal__loader__body").html("");
-            $("#modal_loader,.overlay").css("display", "none");
+            if (!mustSave) {
+                $("#modal__header__title").text("");
+                $("#modal__loader__body").html("");
+                $("#modal_loader,.overlay").css("display", "none");
+                $("#sidebar").removeClass("show_sidebar");
+            } else {
+                Swal.fire({
+                    title: 'Hay cambios sin guardar',
+                    text: '',
+                    icon: 'info',
+
+
+                })
+            }
+
 
             break;
         case "overlay": //cerrar las modales y overlay
@@ -510,6 +545,7 @@ $("body").on("click", function(e) {
 
                 callback: () => {
                     verify_dark()
+                    init_table()
                     viewLoader({
 
                         path: "configuration/paypal.php",

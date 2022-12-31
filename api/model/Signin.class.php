@@ -23,10 +23,10 @@ class Signin
                 $_SESSION['user'] =  $uInfo;
                 echo true;
             else :
-                echo "A201";
+                echo "A201";//contraseña incorrecta
             endif;
         else :
-            echo "A200";
+            echo "A200";//usuario no encontrado
         endif;
     }
 }

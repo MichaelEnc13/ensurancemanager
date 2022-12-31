@@ -7,13 +7,13 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
 ?>
 
 <style>
-#getExpired{
-    border: 1px solid var(--main-color);
-}
+    #getExpired {
+        border: 1px solid var(--main-color);
+    }
 </style>
 <h2 class="blue">Expirados</h2>
 
-<table id="table"  class="table-hover display  dataTable dtr-inline collapsed">
+<table id="table" class="table-hover display  dataTable dtr-inline collapsed">
     <thead>
         <tr>
             <td>id</td>
@@ -36,7 +36,7 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
             $date = CalDate::diffDate(date("d-m-Y"), $policies['date_until']);
             $car_plate = Client::see_client_cars($client['cid'], $policies['car_plate'])['data']->fetch()['plate'];
             // Para ver si el que cliente expira pronto -->
-            
+
             if ($date < 0) :
         ?>
 
@@ -51,9 +51,11 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
                     <td><?php echo  $car_plate  ?></td>
                     <td><?php echo $policies['date_from'] ?></td>
                     <td><?php echo $policies['date_until'] ?></td>
-                    <td><?php echo substr(CalDate::diffDate(date("d-m-Y"), $policies['date_until']),-1)." día(s)" ?></td>
-                    <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td>                    <td><button class="btn table__btn ">
-                            <img src="src/img/icons/whatsapp.png" id="notify-client" data-message="expired" data-car_plate="<?php echo $policies['car_plate'] ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname']." ".$client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>"  data-date_from="<?php echo $policies['date_from'] ?>"  data-date_until="<?php echo $policies['date_until'] ?>">
+                    <td><?php echo substr(CalDate::diffDate(date("d-m-Y"), $policies['date_until']), 1) . " día(s)" ?></td>
+                    <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>
+                    <td>
+                        <button class="btn table__btn "  id="notify-client" data-message="expired" data-car_plate="<?php echo $policies['car_plate'] ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname'] . " " . $client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>" data-date_from="<?php echo $policies['date_from'] ?>" data-date_until="<?php echo $policies['date_until'] ?>">
+                            <img src="src/img/icons/whatsapp.png">
                         </button>
                     </td>
 

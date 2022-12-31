@@ -201,7 +201,7 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                         <p><?php echo $see_car_policy['date_from'] . " / " . $see_car_policy['date_until'];
 
                             $date = CalDate::diffDate(date("d-m-Y"), $see_car_policy['date_until']);
-                            if ($date <= 0) :
+                            if ($date <= 0 AND $see_car_policy['date_from']) :
                             ?></p>
                         <p style="color: red;">Esta póliza ha expirado. Tiene <?php echo substr($date, 1) . " Dia(s) de retraso"; ?></p>
 

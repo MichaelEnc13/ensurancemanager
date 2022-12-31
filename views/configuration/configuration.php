@@ -63,7 +63,7 @@ $posY = $positions['posY'];
                         </div>
                         <i class="fa-regular fa-moon"></i>
                     </div>
-                    <h4>Ajustar plantilla de poliza en la hoja</h4>
+                    <h4>Ajustar plantilla de poliza en la hoja <i><i class="fa-solid fa-circle-question"></i></i></h4>
                     <div class="group_temple_pos">
                         <div class="form_control">
                             <label for="">Arriba hacia abajo <i class="fa-solid fa-up-down"></i></label>
@@ -99,8 +99,8 @@ $posY = $positions['posY'];
                 <h3>Método de pago</h3>
 
                 <button class="btn btn--blue" id="payPal"><i class="fa-brands fa-paypal"></i> PayPal</button>
-                <button class="btn btn--blue" id="azul">Pagos AZUL</button>
-                <button class="btn btn--blue" id="transfer"><i class="fa-solid fa-money-bill-transfer"></i> Transferencia</button>
+                <?php include 'paypal.php'?>
+
             </div><!-- Opciones de pago -->
 
     </form>

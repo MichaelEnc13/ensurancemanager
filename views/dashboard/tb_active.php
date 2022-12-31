@@ -49,7 +49,7 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
                 <td><?php echo $policies['date_from'] ?></td>
                 <td><?php echo $policies['date_until'] ?></td>
                
-                <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td>
+                <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>
             </tr>
         <?php endif; endforeach; ?>
     </tbody>

@@ -10,6 +10,7 @@ if (isset($_SESSION['user'])   == true) :
 endif;
 
 ?>
+   <script src="https://www.google.com/recaptcha/api.js?render=6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK"></script>
 
 <div class="signup__container">
 
@@ -47,7 +48,7 @@ endif;
                 </button>
 
             </form>
-            <button id="loadRegister" class="btn"> No tienes una cuenta?, Registrate</button>
+            <button id="loadRegister" class="btn g-recaptcha"  data-sitekey="6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK" data-callback='onSubmit' data-action='submit'> No tienes una cuenta?, Registrate</button>
 
         </div>
     </div>

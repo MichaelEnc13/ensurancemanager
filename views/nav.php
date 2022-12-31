@@ -1,13 +1,15 @@
  <nav id="nav" class="nav darked">
 
-     <span class="toggle" id="toggle">
+     <span  data-action="Configuración" class="toggle" id="toggle">
          <i class="fa-solid fa-gears"></i>
      </span>
      <span class="refill"></span>
      <div class="nav__control blue">
-         <span id="backDashboard">
-             <i class="fa-solid fa-caret-left"></i> Regresar
+         <span id="backDashboard"   data-action="Regresar al dashboard" class="clikable">
+             <i class="fa-solid fa-arrow-left"></i>
          </span>
+
+
      </div>
 
      <div class="nav__company__logo">
@@ -17,12 +19,12 @@
          <?php echo $_SESSION['user']['fname'] ?>
      </div>
 
-     <div  class="notification">
+     <div class="notification"data-action="Notificaciones">
          <!-- <span class="notification_badge"></span> -->
-         <span style="cursor: pointer;"><i id="notification" class="fa-regular fa-bell"></i></span>
+         <span style="cursor: pointer;" ><i id="notification" class="fa-regular fa-bell"></i></span>
      </div>
-     <div class="nav__loguot">
-         <span style="cursor: pointer;"><i id="logout" class="fa-solid fa-arrow-right-from-bracket"></i></span>
+     <div class="nav__loguot" >
+         <span style="cursor: pointer;" data-action="Salir del sistema"><i id="logout" class="fa-solid fa-arrow-right-from-bracket"></i></span>
      </div>
 
 
@@ -45,6 +47,6 @@
              <div class="notifications_footer">30/11/2022</div>
          </div>
 
-        
+
      </div>
  </div>

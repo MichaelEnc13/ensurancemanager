@@ -56,7 +56,7 @@ $mantenainces = Dashboard::get_mantenaince()['data']->fetchAll();
                         echo $days > 0?$days." día(s)":"Sin retrasos" ?>
                     
                     </td>
-                    <td><button id="view-client-car-info" data-car_id="<?php echo $mantenaince['car_id'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn ">Ver</button></td> 
+                    <td><button id="view-client-car-info" data-car_id="<?php echo $mantenaince['car_id'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td> 
      
 
                 </tr>
