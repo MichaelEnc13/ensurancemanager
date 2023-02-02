@@ -21,7 +21,7 @@ function viewLoader(viewData) {
     var modal = v.modal ? v.modal : false; //decidir si la vista es modal o no
     var modalTitle = v.modalTitle ? v.modalTitle : ""; //titulo de la vista modal
     var modalSize = v.modalSize ? v.modalSize : "75%"
-    console.log(params);
+    //console.log(params);
     if (modal) { //mostrar las modales si es necesario
         $("#modal_loader").css("width", modalSize);
         $("#modal__header__title").text(modalTitle);

@@ -68,7 +68,7 @@
                 <option value="0">Tiempo de pago</option>
                 <option value="1">1 mes</option>
                 <option value="2">2 meses</option>
-                <option value="3">3 meses</option>
+                <!-- <option value="3">3 meses</option> -->
             </select>
         </div><!-- Tiempo de pago -->
 

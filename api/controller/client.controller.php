@@ -178,9 +178,11 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
 
             //Se verifica si el tipo de pago es total o inicial para poder aplicarle las cuotas
             if ($_POST['pay_method'] == "1") :
+                
                 $time = $_POST['time'];
+                
                 $month = 1;
-                $amount = floatval(($value - $initial) + $totalAditional / $time);
+                echo $time . "Tiempo-". $amount = floatval((($value - $initial) + $totalAditional) / $time);
                 for ($i = 0; $i < $time; $i++) :
                     Client::add_policy_due(
                         $policynumber,
@@ -252,14 +254,14 @@ if (isset($_POST['partialPay'])) : //pago parcial de cuota
     );
 
     if ($done['status']) :
-     
-         Client::partialPay(
-            
+
+        Client::partialPay(
+
             $_POST['policynumber'],
-            $_POST['dueid'] +1,
+            $_POST['dueid'] + 1,
             $_POST['cid'],
             $_POST['amount']
-    
+
         );
         $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
@@ -270,7 +272,7 @@ if (isset($_POST['partialPay'])) : //pago parcial de cuota
 
         echo $done['error'][1];
     endif;
- 
+
 endif;
 if (isset($_POST['payoff'])) : //salda todas las cuotas
     $done = Client::payOff(

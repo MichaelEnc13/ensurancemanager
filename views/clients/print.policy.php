@@ -89,7 +89,7 @@ $pa = false;
                 foreach($services as $service ):
 
                     $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
-                    if($serviceActive == "Patria asistencia"  && $pa == false ): $pa = true;  ?>
+                    if($serviceActive == "Patria asistencia" || $serviceActive == "PATRIA ASISTENCIA"  && $pa == false ): $pa = true;  ?>
                     
                         <p>PATRIA ASISTENCIA TEL: 809-908-1234</p>
                     <?php   endif; endforeach;?>
@@ -98,7 +98,7 @@ $pa = false;
 
                     <?php foreach($services as $service ):
                       $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
-                         if($serviceActive == "Casa del conductor" && $cc == false ): $cc = true; ?>
+                         if($serviceActive == "Casa del conductor" || $serviceActive == "CASA DEL CONDUCTOR" && $cc == false ): $cc = true; ?>
                             
                         <p>CASA DEL CONDUCTOR TEL: 809-381-2424</p>
                     
@@ -108,7 +108,7 @@ $pa = false;
 
                         <?php foreach($services as $service ):
                           $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
-                         if($serviceActive == "Centro del automovilista"  && $ca == false && $cc == false  ):   $ca = true  ?>
+                         if($serviceActive == "Centro del automovilista" || $serviceActive == "CENTRO DEL AUTOMOVILISTA"  && $ca == false && $cc == false  ):   $ca = true  ?>
                          
                         
                             <p>CENTRO DEL AUTOMOVILISTA TEL: 809-565-8222</p>
