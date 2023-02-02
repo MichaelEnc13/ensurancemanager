@@ -1,4 +1,4 @@
-<form id="form" class="form form_new_policy" onsubmit="return false">
+<form id="form" class="form form_new_policy form_edit_policy" onsubmit="return false">
 
 
     <div class="main__form__control">

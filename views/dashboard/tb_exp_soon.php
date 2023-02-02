@@ -49,8 +49,9 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
                 <td><?php echo $policies['date_from'] ?></td>
                 <td><?php echo $policies['date_until'] ?></td>
                 
-                <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>                <td><button class="btn table__btn ">
-                            <img src="src/img/icons/whatsapp.png" id="notify-client" data-message="soon" data-car_id="<?php echo $policies['car_plate'] ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname']." ".$client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>"  data-date_from="<?php echo $policies['date_from'] ?>"  data-date_until="<?php echo $policies['date_until'] ?>">
+                <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>                
+                <td><button class="btn table__btn " id="notify-client"  data-message="soon" data-car_plate="<?php echo $car_plate ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname']." ".$client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>"  data-date_from="<?php echo $policies['date_from'] ?>"  data-date_until="<?php echo $policies['date_until'] ?>">
+                            <img src="src/img/icons/whatsapp.png" >
                         </button>
                     </td>
             </tr>

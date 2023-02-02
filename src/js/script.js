@@ -894,6 +894,7 @@ $(document).on("click", function(e) {
                 processData: false,
                 contentType: false,
                 success: function(res) {
+                    mustSave = false;
                     console.log(res);
                     switch (res) {
                         case "1" || true:
@@ -945,6 +946,7 @@ $(document).on("click", function(e) {
                 contentType: false,
                 success: function(res) {
                     console.log(res);
+                    mustSave = false;
 
                     switch (res) {
                         case "1":
@@ -1001,6 +1003,7 @@ $(document).on("click", function(e) {
                 contentType: false,
                 success: function(res) {
                     console.log(res);
+                    mustSave = false;
                     switch (res) {
                         case "1" || true:
                             $("#modal_loader").css("display", "none");
@@ -1306,6 +1309,7 @@ $(document).on("click", function(e) {
 
                 success: function(res) {
                     console.log(res);
+                    mustSave = false;
                     switch (res) {
                         case "1" || true:
                             $("#modal_loader").css("display", "none");

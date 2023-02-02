@@ -207,6 +207,7 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
 
                     <?php endif; ?>
                     </div>
+                    <!-- Cuotas restantes -->
                     <div class="client__info__group__data">
 
 
@@ -214,6 +215,7 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                         <h4>Cuotas restantes</h4>
                         <p><?php echo $cantDues ?></p>
                     </div>
+                    <!-- Monto a pagar -->
                     <div class="client__info__group__data">
 
 
@@ -224,10 +226,11 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
 
 
                 </div>
+                <!-- Botones de acciones -->
                 <div class="client__info__actions">
                     <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="payDue" class="btn btn--blue">Pago cuota</button>
+                    <button class="btn btn--blue">Pago parcial</button>   
                     <button data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" class="btn btn--blue" id="payoff">Saldar</button>
-                    <!--    <button class="btn btn--blue">Abonar</button>    -->
                     <button id="printPolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--blue">Imprimir</button>
                     <button id="deletePolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--red">Eliminar</button>
                 </div>

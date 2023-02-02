@@ -22,7 +22,7 @@ $email = isset($clientInfo) ? $clientInfo['email'] : "";
 
 <div class="modal">
 
-    <form id="form" class="form form_new_register" onsubmit="return false">
+    <form id="form" class="form form_new_register <?php if($fname!=""):echo "form_edit_client";elseif(isset($carInfo) ): echo "form_edit_car"; endif; ?>" onsubmit="return false">
 
         <?php if (!isset($_GET['newcar']) && !isset($_GET['editCar'])) : ?>
             <h3>Datos del conductor</h3>

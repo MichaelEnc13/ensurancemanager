@@ -194,11 +194,26 @@ class Client
         return Db::queries($query, $values);
     }
 
+    
+    /* Se lee la informacion del servicio adicional
+
+    */
     public static function get_services_info($service_id)
     {
         $values = array($service_id, $_SESSION['user']['id']);
         $query = "SELECT * FROM policy_additional_services WHERE id = ? AND uid = ?";
 
+
+        return Db::queries($query, $values);
+    }
+
+    /* 
+        Obtiene los servicios adicionales del cliente para ser mostrados en el carnet
+    */
+    public static function get_additional_services_actives($policynumber)
+    {
+        $values = array($policynumber, $_SESSION['user']['id']);
+        $query = "SELECT * FROM aditionalservice WHERE policynumber = ? AND uid = ?";
 
         return Db::queries($query, $values);
     }

@@ -5,6 +5,9 @@
     $policynumber = Client::see_car_policy($car_id, $cid)['data']->fetch();
     $car_info = Client::see_client_cars($cid, $policynumber['car_plate'])['data']->fetch();
     $client = Client::see_client_info($cid)['data']->fetch();
+    $services = Client::get_additional_services_actives($policynumber['policynumber'])['data']->fetchAll();
+ 
+    /* Controla el posicionamiento de la informacion del carnet en la plantilla */
     $template_pos = Client::see_settings("template_pos")['data']->fetch();
     $positions = json_decode($template_pos['template_pos'],true);
     $posX = $positions['posX']."cm";
@@ -12,9 +15,9 @@
 
     ?>
 
- 
+
  <div class="policy_container" style="padding-left:<?php echo  $posX?>;padding-top:<?php echo  $posY?>">
-     <div class="policy__print"  >
+     <div class="policy__print">
          <div class="policy__print__info policy__print__info--maininfo">
              <span>Cliente:</span>
              <p><?php echo $client['fname'] . " " . $client['lname'] ?></p>
@@ -78,24 +81,41 @@
          </div>
 
          <?php
-            $as = json_decode($policynumber['aditionalService'], true);
+//Si estos valores no se actualizan, significa que esos servicios no están en la póliza
+$cc = false;
+$ca = false;
+$pa = false;
+ 
+                foreach($services as $service ):
 
-            $pa = isset($as[0]) ? $as[0] : "";
-            $cc = isset($as[2]) ? $as[2] : "";
-            $ca = isset($as[3]) ? $as[3] : "";
-            if ($pa != "" && $cc != "") :   ?>
-             <p>PATRIA ASISTENCIA TEL: 809-908-1234</p>
-             <p>CASA DEL CONDUCTOR TEL: 809-381-2424</p>
-         <?php elseif ($pa != "" && $ca != "") : ?>
-             <p>PATRIA ASISTENCIA TEL: 809-908-1234</p>
-             <p>CENTRO DEL AUTOMOVILISTA TEL: 809-565-8222</p>
-         <?php elseif ($ca != "") : ?>
-             <p>CENTRO DEL AUTOMOVILISTA TEL: 809-565-8222</p>
+                    $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
+                    if($serviceActive == "Patria asistencia"  && $pa == false ): $pa = true;  ?>
+                    
+                        <p>PATRIA ASISTENCIA TEL: 809-908-1234</p>
+                    <?php   endif; endforeach;?>
 
-         <?php elseif ($pa != "") : ?>
-             <p>PATRIA ASISTENCIA TEL: 809-908-1234</p>
-         <?php elseif ($cc != "") : ?>
-             <p>CASA DEL CONDUCTOR TEL: 809-381-2424</p>
-         <?php endif; ?>
+
+
+                    <?php foreach($services as $service ):
+                      $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
+                         if($serviceActive == "Casa del conductor" && $cc == false ): $cc = true; ?>
+                            
+                        <p>CASA DEL CONDUCTOR TEL: 809-381-2424</p>
+                    
+                    <?php   endif; endforeach; ?>
+
+
+
+                        <?php foreach($services as $service ):
+                          $serviceActive = Client::get_services_info($service['service_id'])['data']->fetch()['name']; 
+                         if($serviceActive == "Centro del automovilista"  && $ca == false && $cc == false  ):   $ca = true  ?>
+                         
+                        
+                            <p>CENTRO DEL AUTOMOVILISTA TEL: 809-565-8222</p>
+
+                            <?php endif;  endforeach; ?>
+            
+
+     
      </div>
  </div>

@@ -21,7 +21,7 @@ function viewLoader(viewData) {
     var modal = v.modal ? v.modal : false; //decidir si la vista es modal o no
     var modalTitle = v.modalTitle ? v.modalTitle : ""; //titulo de la vista modal
     var modalSize = v.modalSize ? v.modalSize : "75%"
-
+    console.log(params);
     if (modal) { //mostrar las modales si es necesario
         $("#modal_loader").css("width", modalSize);
         $("#modal__header__title").text(modalTitle);
@@ -126,7 +126,7 @@ $(document).on("change", "#select-client-vehicle", function(e) { //select placas
 
 var mustSave = false;
 /* Detectar cambios en el formulario para evitar cerrar sin guardar */
-$(document).on("change", ".form_new_policy,.form_new_register", function(e) {
+$(document).on("change", ".form_edit_policy,.form_edit_client,.edit_mantenaince,.form_edit_car", function(e) {
     mustSave = true
         //console.log(e);
 });
@@ -406,6 +406,7 @@ $("body").on("click", function(e) {
                     $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", false);
                     // get_additional_service(car_plate, cid)
                     init_date_picker()
+
                 }
 
             })

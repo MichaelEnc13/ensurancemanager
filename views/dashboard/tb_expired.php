@@ -42,7 +42,9 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
 
 
                 <!-- Buscar la cantidad de vehiculos de un cliente -->
-                <?php $cant_car = Client::see_client_cars($policies['cid'], false)['data']->rowCount(); ?>
+                <?php $cant_car = Client::see_client_cars($policies['cid'], false)['data']->rowCount();
+                  
+                ?>
                 <tr>
                     <td><?php echo $client['id'] ?></td>
                     <td><?php echo $client['cid'] ?></td>
@@ -54,8 +56,9 @@ $policies = Dashboard::get_policies()['data']->fetchAll();
                     <td><?php echo substr(CalDate::diffDate(date("d-m-Y"), $policies['date_until']), 1) . " día(s)" ?></td>
                     <td><button id="view-client-car-info" data-car_id="<?php echo $policies['car_plate'] ?>" data-car_plate="<?php echo  $car_plate ?>" data-cid="<?php echo $client['cid'] ?>" class="btn table__btn "><i class="fa-solid fa-arrow-right"></i></button></td>
                     <td>
-                        <button class="btn table__btn "  id="notify-client" data-message="expired" data-car_plate="<?php echo $policies['car_plate'] ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname'] . " " . $client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>" data-date_from="<?php echo $policies['date_from'] ?>" data-date_until="<?php echo $policies['date_until'] ?>">
+                        <button class="btn table__btn "  id="notify-client" data-message="expired" data-car_plate="<?php echo $car_plate ?>" data-policynumber="<?php echo $policies['policynumber'] ?>" data-cname="<?php echo $client['fname'] . " " . $client['lname'] ?>" data-tel="<?php echo $client['tel'] ?>" data-date_from="<?php echo $policies['date_from'] ?>" data-date_until="<?php echo $policies['date_until'] ?>">
                             <img src="src/img/icons/whatsapp.png">
+                           
                         </button>
                     </td>
 
