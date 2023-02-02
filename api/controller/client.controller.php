@@ -243,7 +243,35 @@ if (isset($_POST['paydue'])) : //pagar cuota
     endif;
 
 endif;
+if (isset($_POST['partialPay'])) : //pago parcial de cuota
+    $done = Client::payDue(
+        $_POST['policynumber'],
+        $_POST['dueid'],
+        $_POST['cid']
 
+    );
+
+    if ($done['status']) :
+     
+         Client::partialPay(
+            
+            $_POST['policynumber'],
+            $_POST['dueid'] +1,
+            $_POST['cid'],
+            $_POST['amount']
+    
+        );
+        $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
+        echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
+        if (!Client::dueInfo($_POST['policynumber'], $_POST['cid'])['data']->fetch()) :
+            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
+        endif;
+    else :
+
+        echo $done['error'][1];
+    endif;
+ 
+endif;
 if (isset($_POST['payoff'])) : //salda todas las cuotas
     $done = Client::payOff(
         $_POST['policynumber'],

@@ -766,6 +766,71 @@ $(document).on("click", function(e) {
                 }
             })
             break;
+        case "partialPay": //pagar una parte de una cuota y poner el resto en la siguiente
+            cid = e.target.dataset.paydue_cid;
+            var dueid = e.target.dataset.dueid;
+            var policynumber = e.target.dataset.policynumber;
+            var data;
+            Swal.fire({
+                    title: 'Ingresa el monto recibido',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Aplicar',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (amount) => {
+                        if (amount == "") {
+
+                            Swal.showValidationMessage(
+                                `Este campo no puede estar vacío`
+                            )
+                        }
+                        data = {
+                            cid,
+                            dueid,
+                            policynumber,
+                            amount,
+                            partialPay: true
+                        }
+                    },
+
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "api/controller/client.controller.php",
+                            data,
+
+                            success: function(res) {
+                               // console.log(res);
+
+                                   switch (res) {
+                                      case "1":
+                                          $("#modal_loader").css("display", "none");
+                                          $(".overlay").css("display", "none");
+                                          //se actualiza la vista de los clientes
+                                          viewLoader({
+                                              title: "client",
+                                              path: "clients/client.php",
+                                              params: `cid=${cid}`
+                                          })
+                                          break;
+                                  }  
+                                  Swal.fire(
+                                    'Pago parcial efectuado',
+                                    `El total pagado fue: RD $${data.amount}`,
+                                    'success'
+                                )
+                            
+                            }
+                        });
+                    }
+                })
+    
+            break;
         case "payoff": //saldar deudas
             cid = e.target.dataset.paydue_cid;
             var policynumber = e.target.dataset.policynumber;

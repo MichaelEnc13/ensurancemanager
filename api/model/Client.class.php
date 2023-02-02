@@ -264,7 +264,7 @@ class Client
             $_SESSION['user']['id']
 
         );
-        $query =  "SELECT * FROM policy_dues WHERE  policynumber = ? AND cid = ? AND uid = ? AND paid = 0 ORDER BY id DESC";
+        $query =  "SELECT * FROM policy_dues WHERE  policynumber = ? AND cid = ? AND uid = ? AND paid = 0 ORDER BY id ASC";
         return Db::queries($query, $values);
     }
     public static function payDue($policynumber, $id, $cid)
@@ -272,6 +272,14 @@ class Client
         $values = array($policynumber, $id, $cid, $_SESSION['user']['id']);
         //el ID usado es el ID de la cuota.
         $query =  "UPDATE policy_dues SET paid = 1 WHERE policynumber = ? AND id = ? AND cid = ? AND uid = ?";
+        return Db::queries($query, $values);
+    }
+/*  //actualiza el monto de la cuota siguiente, agregando el restante del pago parcial */
+    public static function partialPay($policynumber, $id, $cid,$amount)
+    { //pagar una cuota
+        $values = array($amount,$policynumber, $id, $cid, $_SESSION['user']['id']);
+        //el ID usado es el ID de la cuota.
+        $query =  "UPDATE policy_dues SET amount = (amount + amount) - ? WHERE policynumber = ? AND id = ? AND cid = ? AND uid = ?";
         return Db::queries($query, $values);
     }
 

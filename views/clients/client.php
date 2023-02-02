@@ -2,7 +2,7 @@
 include file_exists("api/model/autoload.php") ? "api/model/autoload.php" : "../../api/model/autoload.php";
 /* 
     LOS VALORES FALSOS QUE SE MANDAN DESDE JAVASCRIPT A PHP LLEGAN COMO STRING Y AL SER COMPRARDOS EN PHP DEBEN SER COMPARADOS COMOS STRINGS
-*/
+*/ 
 include file_exists("../../config/session_control.php") ? "../../config/session_control.php" : "config/session_control.php";
 
 if (session_status() != 2) session_start();
@@ -229,7 +229,9 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                 <!-- Botones de acciones -->
                 <div class="client__info__actions">
                     <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="payDue" class="btn btn--blue">Pago cuota</button>
-                    <button class="btn btn--blue">Pago parcial</button>   
+                    <?php if($cantDues > 1): ?>
+                    <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="partialPay" class="btn btn--blue">Pago parcial</button>
+                    <?php endif;?>
                     <button data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" class="btn btn--blue" id="payoff">Saldar</button>
                     <button id="printPolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--blue">Imprimir</button>
                     <button id="deletePolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--red">Eliminar</button>
