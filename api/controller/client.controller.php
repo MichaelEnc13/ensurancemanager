@@ -138,10 +138,6 @@ elseif (isset($_POST['addService']) && $_POST['addService'] === "false") :
     Client::delete_services_draft($_POST['policynumber'] != "" ? $_POST['policynumber'] : $_SESSION['policy_draft'], $_POST['service_id']);
 endif;
 
-
-
-
-
 if (isset($_POST['newPolicy'])) : //registra la nueva poliza
     $policynumber = $_POST['policy_number'];
     $cid = $_POST['cid'];
@@ -182,7 +178,7 @@ if (isset($_POST['newPolicy'])) : //registra la nueva poliza
                 $time = $_POST['time'];
                 
                 $month = 1;
-                echo $time . "Tiempo-". $amount = floatval((($value - $initial) + $totalAditional) / $time);
+                $amount = floatval((($value - $initial) + $totalAditional) / $time);
                 for ($i = 0; $i < $time; $i++) :
                     Client::add_policy_due(
                         $policynumber,
@@ -232,13 +228,20 @@ if (isset($_POST['paydue'])) : //pagar cuota
 
     );
 
+
+
     if ($done['status']) :
 
-        $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
+         $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
+        
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
+
         if (!Client::dueInfo($_POST['policynumber'], $_POST['cid'])['data']->fetch()) :
-            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
-        endif;
+//Extrae la fecha de inicio de la poliza para uscarla en caso de que se tenga que renovar la póliza
+   $policyStartDate = Client::see_policy_info( $_POST['policynumber'], $_POST['cid'])['data']->fetch()['date_from'];
+            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year( $policyStartDate));
+
+        endif;  
     else :
 
         echo $done['error'][1];
@@ -266,7 +269,9 @@ if (isset($_POST['partialPay'])) : //pago parcial de cuota
         $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in30Days());
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
         if (!Client::dueInfo($_POST['policynumber'], $_POST['cid'])['data']->fetch()) :
-            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
+            //Extrae la fecha de inicio de la poliza para uscarla en caso de que se tenga que renovar la póliza
+   $policyStartDate = Client::see_policy_info( $_POST['policynumber'], $_POST['cid'])['data']->fetch()['date_from'];
+            Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year( $policyStartDate));
         endif;
     else :
 
@@ -281,8 +286,9 @@ if (isset($_POST['payoff'])) : //salda todas las cuotas
     );
 
     if ($done['status']) :
-
-        $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year());
+                   //Extrae la fecha de inicio de la poliza para uscarla en caso de que se tenga que renovar la póliza
+   $policyStartDate = Client::see_policy_info( $_POST['policynumber'], $_POST['cid'])['data']->fetch()['date_from'];
+        $updated = Client::updatePolicyDate($_POST['policynumber'], $_POST['cid'], CalDate::in1Year( $policyStartDate));
         echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
 
     else :
@@ -330,7 +336,10 @@ if (isset($_POST['renewPolicy'])) : //renueva las polizas
                 $_POST['policynumber'],
                 $cid
             );
-            $updated = Client::updatePolicyDate($_POST['policynumber'], $cid, CalDate::in1Year());
+                               //Extrae la fecha de inicio de la poliza para uscarla en caso de que se tenga que renovar la póliza
+   $policyStartDate = Client::see_policy_info( $_POST['policynumber'], $_POST['cid'])['data']->fetch()['date_from'];
+          
+            $updated = Client::updatePolicyDate($_POST['policynumber'], $cid, CalDate::in1Year($policyStartDate));
 
             echo $updated['status'] == true ? $updated['status'] : $updated['error'][1];
         endif;

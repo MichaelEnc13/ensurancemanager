@@ -11,7 +11,7 @@
 */
 
 
-$(document).on("mouseenter", ".client__header button,#backDashboard,.toggle,.notification,.nav__loguot span", function(e) {
+$(document).on("mouseenter", ".client__header button,#backDashboard,.toggle,.notification,.nav__loguot span", function (e) {
 
 
     tippy(e.target, {
@@ -50,7 +50,7 @@ init_table();
 const baseUri = location.protocol + "//" + location.hostname + "/";
 /* Registrar nuevos usuarios */
 
-$(document).on("click", "#register", function(e) {
+$(document).on("click", "#register", function (e) {
     var form = document.querySelector("body .form#registerUser");
     var data = new FormData(form);
     var company_code = $("#select_ensurance").val();
@@ -67,7 +67,7 @@ $(document).on("click", "#register", function(e) {
     data.append("company_logo", company[company_code].url)
     data.append("register", true)
     var empty = 0;
-    $("#registerUser input").each(function(index, element) {
+    $("#registerUser input").each(function (index, element) {
 
         if (element.type == "text" && element.value == "") {
             element.style.border = "1px solid red";
@@ -91,9 +91,9 @@ $(document).on("click", "#register", function(e) {
 
 
 
-    grecaptcha.ready(function() {
+    grecaptcha.ready(function () {
 
-        grecaptcha.execute('6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK', { action: 'submit' }).then(function(token) {
+        grecaptcha.execute('6LfnN7EjAAAAAHPNkMPeGzxKIJVHIVkb0kukYPuK', { action: 'submit' }).then(function (token) {
             if (empty == 0) {
                 $.ajax({
                     type: "POST",
@@ -101,8 +101,8 @@ $(document).on("click", "#register", function(e) {
                     data,
                     processData: false,
                     contentType: false,
-                    success: function(res) {
-                        console.log(res);
+                    success: function (res) {
+                      //  console.log(res);
                         switch (res) {
                             case "1" || true:
                                 $("#modal_loader").css("display", "none");
@@ -156,7 +156,7 @@ $(document).on("click", "#register", function(e) {
 });
 
 //iniciar sesion
-$(document).on("click", "#login", function(e) {
+$(document).on("click", "#login", function (e) {
     var form = document.querySelector("body .form#registerUser");
     var data = new FormData(form);
     data.append("login", true)
@@ -167,7 +167,7 @@ $(document).on("click", "#login", function(e) {
         data,
         processData: false,
         contentType: false,
-        success: function(res) {
+        success: function (res) {
             console.log(res);
             switch (res) {
                 case "1" || true:
@@ -253,7 +253,7 @@ function cal_date(days) {
     });
 }
 /* Se añaden los guiones a la fecha */
-$(document).on("keyup", ".date_info", function(e) {
+$(document).on("keyup", ".date_info", function (e) {
     var text = $(e.target).val();
     var chars = text.length;
     var last = text[chars - 1];
@@ -268,7 +268,7 @@ $(document).on("keyup", ".date_info", function(e) {
 
 });
 /* Se añaden los guiones a la cedula */
-$(document).on("keyup", ".form__input--cid", function(e) {
+$(document).on("keyup", ".form__input--cid", function (e) {
     var text = $(e.target).val();
     var chars = text.length;
     var last = text[chars - 1];
@@ -289,7 +289,7 @@ $(document).on("keyup", ".form__input--cid", function(e) {
 });
 
 /* Se añaden los guiones al telefono */
-$(document).on("keyup", "input[type=tel]", function(e) {
+$(document).on("keyup", "input[type=tel]", function (e) {
     var text = $(e.target).val();
     var chars = text.length;
     var last = text[chars - 1];
@@ -378,7 +378,7 @@ function cal_amount(additional) { //se realizan los calculos las polizas
 
 function check_additional_value() {
     var value = 0;
-    $(".form__control__checkbox__control input[type='checkbox']").each(function(index, element) {
+    $(".form__control__checkbox__control input[type='checkbox']").each(function (index, element) {
         if (element.checked) {
             value += parseInt(element.dataset.value);
         }
@@ -391,7 +391,7 @@ function check_additional_value() {
 function verifyFormFields(form) {
     var count = 0;
     var done = true;
-    $(form).each(function(index, element) {
+    $(form).each(function (index, element) {
         var value = element.value;
         var name = element.name;
 
@@ -416,7 +416,7 @@ function verifyFormFields(form) {
 
 var totalAdditional = 0;
 var additional = 0;
-$(document).on("click", ".form__control__checkbox__control input[type=checkbox]", function(e) {
+$(document).on("click", ".form__control__checkbox__control input[type=checkbox]", function (e) {
     var valueInData = e.target.dataset.value; //obtiene el precio
     var valueInInput = parseInt($("#additional-edit").val());
     additional = parseInt(valueInData ? valueInData : valueInInput)
@@ -431,21 +431,21 @@ $(document).on("click", ".form__control__checkbox__control input[type=checkbox]"
 });
 
 
-$(document).on("keyup", ".form__input", function(e) {
+$(document).on("keyup", ".form__input", function (e) {
     var valueInInput = parseInt($("#additional-edit").val());
     var added = parseInt(totalAdditional != 0 ? totalAdditional : valueInInput)
     cal_amount(added)
 
 });
-$(document).on("change", "select", function(e) {
-        /* Este se usa en caso de que la pagina sea recagada y necesite el valor adicional para editar o renovar */
-        var valueInInput = parseInt($("#additional-edit").val());
-        var added = parseInt(totalAdditional != 0 ? totalAdditional : valueInInput)
-        cal_amount(added);
+$(document).on("change", "select", function (e) {
+    /* Este se usa en caso de que la pagina sea recagada y necesite el valor adicional para editar o renovar */
+    var valueInInput = parseInt($("#additional-edit").val());
+    var added = parseInt(totalAdditional != 0 ? totalAdditional : valueInInput)
+    cal_amount(added);
 
-    })
-    // se usar para asegurarse de que no se activen los checkbox sin numero de poliza
-$(document).on("keyup", "input[name=policy_number]", function(e) {
+})
+// se usar para asegurarse de que no se activen los checkbox sin numero de poliza
+$(document).on("keyup", "input[name=policy_number]", function (e) {
     if (e.target.value == "") {
         $(".form__control__checkbox__control input[type=checkbox]").prop("disabled", true);
     } else {
@@ -456,39 +456,39 @@ $(document).on("keyup", "input[name=policy_number]", function(e) {
 
 });
 
-$(document).on("change", ".form__control__checkbox__control input[type=checkbox]", function(e) {
+$(document).on("change", ".form__control__checkbox__control input[type=checkbox]", function (e) {
 
     var policynumber = $("input[name=policy_number]").val();
     var name = e.target.value;
     var value = e.target.dataset.value;
     var service_id = e.target.dataset.index;
     var data = {
-            policynumber,
-            name,
-            value,
-            service_id,
-            addService: e.target.checked
-        }
-        //console.log(data);
+        policynumber,
+        name,
+        value,
+        service_id,
+        addService: e.target.checked
+    }
+    //console.log(data);
 
     $.ajax({
         type: "POST",
         url: "api/controller/client.controller.php",
         data,
-        success: function(res) {
+        success: function (res) {
             // console.log(res);
         }
     });
 });
 
-$(document).on("keypress", "form.addtionalServices", function(e) {
+$(document).on("keypress", "form.addtionalServices", function (e) {
 
     if (e.keyCode == 13) { e.preventDefault(); }
 
 });
 
 
-$(document).on("click", function(e) {
+$(document).on("click", function (e) {
 
 
     let cid;
@@ -509,7 +509,7 @@ $(document).on("click", function(e) {
                     data,
                     processData: false,
                     contentType: false,
-                    success: function(res) {
+                    success: function (res) {
                         //     console.log(res);
                         switch (res) {
                             case "1" || true:
@@ -586,7 +586,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     console.log(res);
                     switch (res) {
                         case "1" || true:
@@ -679,7 +679,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     console.log(res);
                     switch (res) {
                         case "1" || true:
@@ -741,7 +741,7 @@ $(document).on("click", function(e) {
                         url: "api/controller/client.controller.php",
                         data,
 
-                        success: function(res) {
+                        success: function (res) {
                             console.log(res);
                             switch (res) {
                                 case "1":
@@ -772,64 +772,64 @@ $(document).on("click", function(e) {
             var policynumber = e.target.dataset.policynumber;
             var data;
             Swal.fire({
-                    title: 'Ingresa el monto recibido',
-                    input: 'text',
-                    inputAttributes: {
-                        autocapitalize: 'off'
-                    },
-                    showCancelButton: true,
-                    confirmButtonText: 'Aplicar',
-                    showLoaderOnConfirm: true,
-                    preConfirm: (amount) => {
-                        if (amount == "") {
+                title: 'Ingresa el monto recibido',
+                input: 'text',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Aplicar',
+                showLoaderOnConfirm: true,
+                preConfirm: (amount) => {
+                    if (amount == "") {
 
-                            Swal.showValidationMessage(
-                                `Este campo no puede estar vacío`
-                            )
-                        }
-                        data = {
-                            cid,
-                            dueid,
-                            policynumber,
-                            amount,
-                            partialPay: true
-                        }
-                    },
-
-                }).then((result) => {
-                    if (result.isConfirmed) {
-
-                        $.ajax({
-                            type: "POST",
-                            url: "api/controller/client.controller.php",
-                            data,
-
-                            success: function(res) {
-                               // console.log(res);
-
-                                   switch (res) {
-                                      case "1":
-                                          $("#modal_loader").css("display", "none");
-                                          $(".overlay").css("display", "none");
-                                          //se actualiza la vista de los clientes
-                                          viewLoader({
-                                              title: "client",
-                                              path: "clients/client.php",
-                                              params: `cid=${cid}`
-                                          })
-                                          break;
-                                  }  
-                                  Swal.fire(
-                                    'Pago parcial efectuado',
-                                    `El total pagado fue: RD $${data.amount}`,
-                                    'success'
-                                )
-                            
-                            }
-                        });
+                        Swal.showValidationMessage(
+                            `Este campo no puede estar vacío`
+                        )
                     }
-                })
-    
+                    data = {
+                        cid,
+                        dueid,
+                        policynumber,
+                        amount,
+                        partialPay: true
+                    }
+                },
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: "api/controller/client.controller.php",
+                        data,
+
+                        success: function (res) {
+                            // console.log(res);
+
+                            switch (res) {
+                                case "1":
+                                    $("#modal_loader").css("display", "none");
+                                    $(".overlay").css("display", "none");
+                                    //se actualiza la vista de los clientes
+                                    viewLoader({
+                                        title: "client",
+                                        path: "clients/client.php",
+                                        params: `cid=${cid}`
+                                    })
+                                    break;
+                            }
+                            Swal.fire(
+                                'Pago parcial efectuado',
+                                `El total pagado fue: RD $${data.amount}`,
+                                'success'
+                            )
+
+                        }
+                    });
+                }
+            })
+
             break;
         case "payoff": //saldar deudas
             cid = e.target.dataset.paydue_cid;
@@ -854,7 +854,7 @@ $(document).on("click", function(e) {
                         url: "api/controller/client.controller.php",
                         data,
 
-                        success: function(res) {
+                        success: function (res) {
                             switch (res) {
                                 case "1":
                                     $("#modal_loader").css("display", "none");
@@ -903,7 +903,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     mustSave = false;
 
                     //console.log(res);
@@ -958,7 +958,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     mustSave = false;
                     console.log(res);
                     switch (res) {
@@ -1009,7 +1009,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     console.log(res);
                     mustSave = false;
 
@@ -1066,7 +1066,7 @@ $(document).on("click", function(e) {
                 data,
                 processData: false,
                 contentType: false,
-                success: function(res) {
+                success: function (res) {
                     console.log(res);
                     mustSave = false;
                     switch (res) {
@@ -1145,7 +1145,7 @@ $(document).on("click", function(e) {
                         data: data,
                         //processData: false,
                         //contentType: false,
-                        success: function(res) {
+                        success: function (res) {
                             //    console.log(res);
                             switch (res) {
                                 case "1" || true:
@@ -1234,7 +1234,7 @@ $(document).on("click", function(e) {
                         url: "api/controller/client.controller.php",
                         data: data,
 
-                        success: function(res) {
+                        success: function (res) {
                             //console.log(res);
                             switch (res) {
                                 case "1" || true:
@@ -1309,8 +1309,8 @@ $(document).on("click", function(e) {
                 contentType: false,
 
 
-                success: function(res) {
-                    console.log(res);
+                success: function (res) {
+                    //console.log(res);
                     switch (res) {
                         case "1" || true:
                             $("#modal_loader").css("display", "none");
@@ -1372,8 +1372,8 @@ $(document).on("click", function(e) {
                 contentType: false,
 
 
-                success: function(res) {
-                    console.log(res);
+                success: function (res) {
+                  //  console.log(res);
                     mustSave = false;
                     switch (res) {
                         case "1" || true:
@@ -1436,8 +1436,8 @@ $(document).on("click", function(e) {
                 data: data,
 
 
-                success: function(res) {
-                    console.log(res);
+                success: function (res) {
+                   // console.log(res);
                     switch (res) {
                         case "1" || true:
                             $("#modal_loader").css("display", "none");
@@ -1500,9 +1500,9 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
         
             `
             location.href = `whatsapp://send/?phone=${tel}&text=${msg}`
-                //console.log(msg);
+            //console.log(msg);
             break;
-            /* Configuracion del sistema */
+        /* Configuracion del sistema */
         case "save_config":
 
             var form = document.querySelector("body form.save_config");
@@ -1532,10 +1532,10 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 data,
                 contentType: false,
                 processData: false,
-                success: function(res) {
+                success: function (res) {
                     res = JSON.parse(res);
                     $(".saving").css("display", "none");
-                    if (typeof(res) == "object") {
+                    if (typeof (res) == "object") {
                         switch (res.status) {
                             case true:
                                 $("body .nav__user").text(res.fname);
@@ -1582,7 +1582,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 data,
                 contentType: false,
                 processData: false,
-                success: function(res) {
+                success: function (res) {
 
                     //   $(".saving").css("display", "none");
                     //console.log(res);
@@ -1621,7 +1621,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 url: "api/controller/user.controller.php",
                 data,
 
-                success: function(res) {
+                success: function (res) {
 
                     //   $(".saving").css("display", "none");
                     // console.log(res);
@@ -1688,7 +1688,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 processData: false,
                 contentType: false,
 
-                success: function(res) {
+                success: function (res) {
 
 
                     switch (res) {
@@ -1717,7 +1717,7 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
             break;
 
 
-            /*Salir del sistema */
+        /*Salir del sistema */
 
         case "logout":
             var data = {
@@ -1732,8 +1732,8 @@ se le recomienda reactivar su seguro lo más pronto posible.\n
                 data: data,
                 //processData: false,
                 //contentType: false,
-                success: function(res) {
-                    console.log(res);
+                success: function (res) {
+                  //  console.log(res);
 
                     viewLoader({
                         title: "signin",

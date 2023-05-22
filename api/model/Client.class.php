@@ -343,6 +343,15 @@ class Client
         return Db::queries("SELECT * FROM policy WHERE cid = ? AND car_plate = ? AND uid = ?", $values);
     }
 
+    public static function see_policy_info($policynumber, $cid)
+    {
+        $values = array(
+            $cid, $policynumber, $_SESSION['user']['id']
+        );
+        return Db::queries("SELECT * FROM policy WHERE cid = ? AND policynumber = ? AND uid = ?", $values);
+    }
+
+
     public static function add_mantenaince_date($car_id, $cid, $date_from, $date_until, $oil_type, $oil_grade)
     {
         $values = array(

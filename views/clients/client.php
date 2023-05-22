@@ -228,15 +228,15 @@ $mantenaince = Client::see_car_mantenaince($clients_car_info['id'], $cid)['data'
                 </div>
                 <!-- Botones de acciones -->
                 <div class="client__info__actions">
-                    <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="payDue" class="btn btn--blue">Pago cuota</button>
-                    <?php if($cantDues > 1): ?>
-                    <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="partialPay" class="btn btn--blue">Pago parcial</button>
-                    <?php endif;?>
+                    <!-- <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="payDue" class="btn btn--blue">Pago cuota</button>
+                    -->
+                    <button data-dueid="<?php echo $dueInfo['id'] ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" id="partialPay" class="btn btn--blue">Aplicar pago</button>
+                     
                     <button data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-paydue_cid="<?php echo $cid ?>" class="btn btn--blue" id="payoff">Saldar</button>
                     <button id="printPolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--blue">Imprimir</button>
                     <button id="deletePolicy" data-policystatus="<?php echo $date ?>" data-policynumber="<?php echo $see_car_policy['policynumber'] ?>" data-car_id="<?php echo $see_car_policy['car_plate'] ?>" data-cid="<?php echo base64_encode($cid) ?>" class="btn btn--red">Eliminar</button>
                 </div>
-            </div>
+             </div>
 
 
             <div class="client__info__widget client__ensurance darked">
